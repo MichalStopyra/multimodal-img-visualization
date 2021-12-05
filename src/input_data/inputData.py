@@ -4,7 +4,7 @@ import pandas as pd
 from src.input_data.fileReader import FileReader
 from sklearn.decomposition import PCA, FastICA, NMF
 
-from src.utils.transformationEnum import Transformation
+from src.utils.DecompositionEnum import Decomposition
 from src.utils.constants import *
 
 import matplotlib.pyplot as plt
@@ -54,12 +54,12 @@ def print_explained_variance_ratio(df: pd.DataFrame):
     plt.gcf().set_size_inches(7, 5)
     plt.show()
 
-def transform_image_wrapper(df: pd.DataFrame, transformation_type: Transformation) -> pd.DataFrame:
-    if transformation_type == Transformation.PCA:
+def transform_image_wrapper(df: pd.DataFrame, decomposition_type: Decomposition) -> pd.DataFrame:
+    if decomposition_type == Decomposition.PCA:
         return transform_pca(df)
-    elif transformation_type == Transformation.ICA:
+    elif decomposition_type == Decomposition.ICA:
         return transform_ica(df)
-    elif transformation_type == Transformation.NMF:
+    elif decomposition_type == Decomposition.NMF:
         return transform_nmf(df)
 
     raise Exception("Chosen transformation type is not allowed")
@@ -76,7 +76,7 @@ class InputData:
         self.image_df = normalize_data(self.file_reader.input_df)
         print(self.image_df.describe())
 
-        self.image_df_pca = transform_image_wrapper(self.image_df, Transformation.PCA)
+        self.image_df_pca = transform_image_wrapper(self.image_df, Decomposition.PCA)
         # self.image_df_ica = transform_image_wrapper(self.image_df, Transformation.ICA)
         # self.image_df_nmf = transform_image_wrapper(self.image_df, Transformation.NMF)
         print(self.image_df_pca.head())
