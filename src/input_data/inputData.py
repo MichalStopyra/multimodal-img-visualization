@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+from src.input_data.channel.channelInput import ChannelInputInterface
 from src.input_data.multimodalImage import MultimodalImage
 from sklearn.decomposition import PCA, FastICA, NMF
 
@@ -94,16 +95,16 @@ class InputData:
 
     # class used for normalizing data
     # sci-kit learn functions do not handle empty attributes values - they need to be handled here
-    def __init__(self, file_path):
-        self.file_reader = MultimodalImage(file_path)
+    def __init__(self,  channels_inputs: [ChannelInputInterface]):
+        self.file_reader = MultimodalImage(channels_inputs)
 
         self.image_df = normalize_data(self.file_reader.input_df)
         print(self.image_df.describe())
 
         # self.image_df_pca = transform_image_wrapper(self.image_df, Decomposition.PCA)
-        self.image_df_ica = transform_image_wrapper(self.image_df, Decomposition.FAST_ICA)
+        # self.image_df_ica = transform_image_wrapper(self.image_df, Decomposition.FAST_ICA)
         # self.image_df_nmf = transform_image_wrapper(self.image_df, Decomposition.NMF)
         # print(self.image_df_pca.head())
         # print_explained_variance_ratio(self.image_df)
-        print(self.image_df_ica)
+        # print(self.image_df_ica)
         # print(self.image_df_nmf)

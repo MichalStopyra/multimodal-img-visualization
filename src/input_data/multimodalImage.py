@@ -1,18 +1,26 @@
-import scipy.io as sio
+import cv2
 
+from src.input_data.channel.channelInput import ChannelInputInterface, ChannelInput, ChannelInputMock
 from src.utils.utils import *
 
 
-def load_and_convert_mat_to_df(image_path):
-    input_dict = sio.loadmat(image_path)
-    # [3][1]??
-    input_list = list(input_dict.items())[3][1]
-    input_array = np.array(input_list)
-    return array_to_df(input_array)
+def load_and_convert_mat_to_df(channels_inputs: [ChannelInputInterface]):
+    ready_channels = []
+    for channel in channels_inputs:
+        if isinstance(channel, ChannelInput):
+            input_mat = cv2.cvtColor(cv2.imread(channel.channel_image_path), cv2.COLOR_BGR2RGB)
+        elif isinstance(channel, ChannelInputMock):
+            # TODO: mock pixel values
+            input_mat = channel.pixel_values
+        else:
+            raise Exception("Channel input is of wrong type")
+
+        ready_channels.append(ReadyChannel(input_mat, channel.channels_names_and_bit_sizes))
+
+    return ready_channels_to_df(ready_channels)
 
 
 class MultimodalImage:
     # class used for creating multimodal images from multi input images
-    def __init__(self, image_path):
-        self.input_df = load_and_convert_mat_to_df(image_path)
-
+    def __init__(self, channels_inputs: [ChannelInputInterface]):
+        self.input_df = load_and_convert_mat_to_df(channels_inputs)
