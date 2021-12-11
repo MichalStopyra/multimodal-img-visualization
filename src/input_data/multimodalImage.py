@@ -11,7 +11,8 @@ def load_and_convert_mat_to_df(image_path):
     return array_to_df(input_array)
 
 
-class FileReader:
-    # class used for reading and normalizing the multimodal data -
+class MultimodalImage:
+    # class used for creating multimodal images from multi input images
     def __init__(self, image_path):
         self.input_df = load_and_convert_mat_to_df(image_path)
+

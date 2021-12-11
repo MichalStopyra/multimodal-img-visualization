@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-from src.input_data.fileReader import FileReader
+from src.input_data.multimodalImage import MultimodalImage
 from sklearn.decomposition import PCA, FastICA, NMF
 
-from src.utils.DecompositionEnum import Decomposition
+from src.utils.decompositionEnum import Decomposition
 from src.utils.constants import *
 
 import matplotlib.pyplot as plt
@@ -95,9 +95,8 @@ class InputData:
     # class used for normalizing data
     # sci-kit learn functions do not handle empty attributes values - they need to be handled here
     def __init__(self, file_path):
-        self.file_reader = FileReader(file_path)
+        self.file_reader = MultimodalImage(file_path)
 
-        # TODO: add standarizing functions to test and validation sets
         self.image_df = normalize_data(self.file_reader.input_df)
         print(self.image_df.describe())
 
