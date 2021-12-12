@@ -4,7 +4,7 @@ from src.input_data.channel.channelInput import ChannelInputInterface, ChannelIn
 from src.utils.utils import *
 
 
-def load_and_convert_mat_to_df(channels_inputs: [ChannelInputInterface]):
+def load_and_convert_mat_to_df(channels_inputs: [ChannelInputInterface]) -> (pd.DataFrame, [ChannelNameAndBitSize]):
     ready_channels = []
     for channel in channels_inputs:
         if isinstance(channel, ChannelInput):
@@ -23,4 +23,4 @@ def load_and_convert_mat_to_df(channels_inputs: [ChannelInputInterface]):
 class MultimodalImage:
     # class used for creating multimodal images from multi input images
     def __init__(self, channels_inputs: [ChannelInputInterface]):
-        self.input_df = load_and_convert_mat_to_df(channels_inputs)
+        self.input_df, self.channels_name_bit_size_map = load_and_convert_mat_to_df(channels_inputs)

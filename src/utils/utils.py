@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+from src.input_data.channel.channelNameAndBitSize import ChannelNameAndBitSize
 from src.input_data.channel.readyChannel import ReadyChannel
 
 
@@ -19,19 +20,19 @@ def validate_channel_images(channels: []):
         raise Exception("channel images have different resolution")
 
 
-def ready_channels_to_df(channels: [ReadyChannel]) -> pd.DataFrame:
+def ready_channels_to_df(channels: [ReadyChannel]) -> (pd.DataFrame, [ChannelNameAndBitSize]):
     validate_channel_images(channels)
 
     first_channels = channels.pop(0)
-    channel_names = list(map(lambda nbs: nbs.name, first_channels.channels_names_and_bit_sizes))
+    channel_names_and_bit_sizes = first_channels.channels_names_and_bit_sizes
     channel_matrix = first_channels.image.reshape(-1, first_channels.image.shape[2])
     for channel in channels:
         channel_matrix = np.append(channel_matrix, channel.image.reshape(-1, channel.image.shape[2]), axis=1)
 
         for name_and_bit_size in channel.channels_names_and_bit_sizes:
-            channel_names.append(name_and_bit_size.name)
+            channel_names_and_bit_sizes.append(name_and_bit_size)
 
     df = pd.DataFrame(data=channel_matrix)
 
-    df.columns = [f'{channel_names[i - 1]}' for i in range(1, 1 + channel_matrix.shape[1])]
-    return df
+    df.columns = [f'{channel_names_and_bit_sizes[i - 1].name}' for i in range(1, 1 + channel_matrix.shape[1])]
+    return df, channel_names_and_bit_sizes
