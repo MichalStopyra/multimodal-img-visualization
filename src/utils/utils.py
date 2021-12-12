@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.input_data.channel.channelNameAndBitSize import ChannelNameAndBitSize
+from src.input_data.channel.channelData import ChannelData
 from src.input_data.channel.readyChannel import ReadyChannel
 
 
@@ -20,7 +20,7 @@ def validate_channel_images(channels: []):
         raise Exception("channel images have different resolution")
 
 
-def ready_channels_to_df(channels: [ReadyChannel]) -> (pd.DataFrame, [ChannelNameAndBitSize]):
+def ready_channels_to_df(channels: [ReadyChannel]) -> (pd.DataFrame, [ChannelData]):
     validate_channel_images(channels)
 
     first_channels = channels.pop(0)

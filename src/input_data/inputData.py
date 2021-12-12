@@ -3,20 +3,23 @@ import pandas as pd
 from typing import Dict
 
 from src.input_data.channel.channelInput import ChannelInputInterface
-from src.input_data.channel.channelNameAndBitSize import ChannelNameAndBitSize
+from src.input_data.channel.channelData import ChannelData, find_channel_by_name
 from src.input_data.multimodalImage import MultimodalImage
 from sklearn.decomposition import PCA, FastICA, NMF
 
 from src.input_data.standarization.standarizationModeEnum import StandarizationModeEnum
+from src.output_data.outputChannelsEnum import OutputChannelsEnum
+from src.output_data.outputFormatEnum import OutputFormatEnum
+from src.output_data.outputImage import df_to_image
 from src.utils.decompositionEnum import Decomposition
 from src.utils.constants import *
 
 import matplotlib.pyplot as plt
 
 
-def normalize_data(df: pd.DataFrame, channels_to_exclude: [str],
-                   standarization_modes: Dict[str, StandarizationModeEnum],
-                   channels_name_bit_size_map: [ChannelNameAndBitSize]) -> pd.DataFrame:
+def standarize_data(df: pd.DataFrame, channels_to_exclude: [str],
+                    standarization_modes: Dict[str, StandarizationModeEnum],
+                    channels_data_map: [ChannelData]) -> (pd.DataFrame, [ChannelData]):
     result = df.copy()
     for column in df.columns:
         if column in channels_to_exclude:
@@ -24,23 +27,22 @@ def normalize_data(df: pd.DataFrame, channels_to_exclude: [str],
 
         df[column] = df[column].astype(float)
 
+        channel_data = find_channel_by_name(channels_data_map, column)
+
         # if standarization_modes doesn't contain specified channel - channel min max mode by default
         # else according to the chosen mode
         if column in standarization_modes and \
                 standarization_modes[column] == StandarizationModeEnum.BIT_SIZE_MIN_MAX:
-            map_element = list(filter(lambda cnbz: cnbz.name == column, channels_name_bit_size_map))
-            if not map_element or len(map_element) != 1:
-                raise Exception("Channel: {}'s bit size not specified", column)
-
-            max_value = np.power(2, map_element[0].bit_size) - 1
+            max_value = np.power(2, channel_data.bit_size) - 1
             min_value = 0
         else:
-            max_value = df[column].max()
+            max_value = channel_data.max_value = df[column].max()
             min_value = df[column].min()
 
         result[column] = (df[column] - min_value) / (max_value - min_value)
+        channel_data.standarized = True
 
-    return result
+    return result, channels_data_map
 
 
 def transform_pca(df: pd.DataFrame) -> pd.DataFrame:
@@ -118,12 +120,16 @@ class InputData:
     # class used for normalizing data
     # sci-kit learn functions do not handle empty attributes values - they need to be handled here
     def __init__(self, channels_inputs: [ChannelInputInterface]):
-        self.file_reader = MultimodalImage(channels_inputs)
-        self.image_df = self.file_reader.input_df
-        self.channels_name_bit_size_map = self.file_reader.channels_name_bit_size_map
+        self.multimodal_image = MultimodalImage(channels_inputs)
+        self.image_df = self.multimodal_image.input_df
+        self.channels_name_bit_size_max_value_map = self.multimodal_image.channels_data_map
 
-        self.normalize_data(['r'], {'r1': StandarizationModeEnum.BIT_SIZE_MIN_MAX})
+        self.standarize_data(['g1'], {'r1': StandarizationModeEnum.BIT_SIZE_MIN_MAX})
         # print(self.image_df.describe())
+
+        df_to_image(self.image_df, self.multimodal_image.channels_data_map, 'test_hsv', 1024, 1024,
+                    OutputFormatEnum.PNG, OutputChannelsEnum.HSV,
+                    'r', 'g', 'b')
 
         # self.image_df_pca = transform_image_wrapper(self.image_df, Decomposition.PCA)
         # self.image_df_ica = transform_image_wrapper(self.image_df, Decomposition.FAST_ICA, 3)
@@ -133,10 +139,11 @@ class InputData:
         # print(self.image_df_ica)
         # print(self.image_df_nmf)
 
-    def normalize_data(self, channels_to_exclude: [str],
-                       standarization_modes: Dict[str, StandarizationModeEnum] = None):
+    def standarize_data(self, channels_to_exclude: [str],
+                        standarization_modes: Dict[str, StandarizationModeEnum] = None):
         if standarization_modes is None:
             standarization_modes = {}
 
-        self.image_df = normalize_data(self.file_reader.input_df, channels_to_exclude,
-                                       standarization_modes, self.channels_name_bit_size_map)
+        self.image_df, self.channels_name_bit_size_max_value_map = \
+            standarize_data(self.multimodal_image.input_df, channels_to_exclude,
+                            standarization_modes, self.channels_name_bit_size_max_value_map)
