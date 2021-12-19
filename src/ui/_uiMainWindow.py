@@ -1,21 +1,21 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class UiMainWindow:
+class _UiMainWindow:
 
     def __init__(self):
         self.mainWindow = QtWidgets.QMainWindow()
-        self.setup_ui_window()
-        self.setup_ui()
+        self._setup_ui_window()
+        self._setup_ui()
 
-    def show(self):
+    def _show(self):
         self.mainWindow.show()
 
-    def setup_ui_window(self):
+    def _setup_ui_window(self):
         self.mainWindow.setGeometry(200, 200, 300, 300)
         self.mainWindow.setWindowTitle("Multimodal images visualization")
 
-    def setup_ui(self):
+    def _setup_ui(self):
         self.mainWindow.setObjectName("self.mainWindow")
         self.mainWindow.resize(1136, 916)
         self.centralwidget = QtWidgets.QWidget(self.mainWindow)
@@ -58,10 +58,10 @@ class UiMainWindow:
         self.menuFile.addAction(self.actionOpen_File)
         self.menubar.addAction(self.menuFile.menuAction())
 
-        self.retranslateUi()
+        self._retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
 
-    def retranslateUi(self):
+    def _retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.mainWindow.setWindowTitle(_translate("self.mainWindow", "Multimodal Images"))
         self.decomposition_type_label.setText(_translate("self.mainWindow", "Choose Decomposition Type"))
