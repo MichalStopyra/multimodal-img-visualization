@@ -20,7 +20,7 @@ if __name__ == '__main__':
     standarize_image_channels(data_container, ['g1'], {'r1': StandarizationModeEnum.BIT_SIZE_MIN_MAX})
     decompose_image_wrapper(data_container, DecompositionEnum.PCA)
     standarized_multimodal_image_df_to_image_save_file(data_container, 'test_hsv', 1024, 1024,
-                                                       OutputImageFormatEnum.PNG, VisualizationChannelsEnum.HSV,
+                                                       OutputImageFormatEnum.PNG, VisualizationChannelsEnum.GRAY_SCALE,
                                                        'r', 'g', 'b')
 
     # app = UiApplication()

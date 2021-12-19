@@ -1,3 +1,4 @@
+import decimal
 from typing import Dict
 
 import numpy as np
@@ -17,10 +18,10 @@ def _standarize_image_channels(df: pd.DataFrame, channels_to_exclude: [str],
 
     result = df.copy()
     for column in df.columns:
+        df[column] = df[column].astype("string").apply(decimal.Decimal)
+
         if column in channels_to_exclude:
             continue
-
-        df[column] = df[column].astype(float)
 
         channel_data = ChannelApi.find_channel_by_name(channels_data_map, column)
 
@@ -44,6 +45,6 @@ def _destandarize_channel(channel_array: np.ndarray, channel_data: ChannelData) 
     if not channel_data.standarized:
         return channel_array
 
-    max_value_multiplier = channel_data.max_value if channel_data.max_value is not None \
-        else np.power(2, channel_data.bit_size) - 1
+    max_value_multiplier = float(channel_data.max_value if channel_data.max_value is not None \
+                                     else np.power(2, channel_data.bit_size) - 1)
     return (np.round(channel_array * max_value_multiplier, 0) % max_value_multiplier).astype(np.uint8)

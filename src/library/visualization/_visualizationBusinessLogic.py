@@ -37,7 +37,7 @@ def _df_to_image_and_save(df: pd.DataFrame, channel_data_map: [ChannelData], des
             print("Gray scale image chosen - channels 2 and 3 will be omitted")
 
         result_array = StandarizationApi.destandarize_channel(
-            np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)),
+            np.reshape(df[channel_name_1].to_numpy().astype(float), (output_width, output_height)),
             ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)) \
             if destandarize \
             else ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)
@@ -91,17 +91,17 @@ def __df_destandarize_and_map_to_separate_channels_arrays(df, output_width, outp
         raise Exception("ERROR: No channels specified for displaying")
 
     channel_1 = StandarizationApi.destandarize_channel(
-        np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)),
+        np.reshape(df[channel_name_1].to_numpy().astype(float), (output_width, output_height)),
         ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)) \
         if channel_name_1 else np.zeros((output_width, output_height)).astype(np.uint8)
 
     channel_2 = StandarizationApi.destandarize_channel(
-        np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)),
+        np.reshape(df[channel_name_2].to_numpy().astype(float), (output_width, output_height)),
         ChannelApi.find_channel_by_name(channel_data_map, channel_name_2)) \
         if channel_name_2 else np.zeros((output_width, output_height)).astype(np.uint8)
 
     channel_3 = StandarizationApi.destandarize_channel(
-        np.reshape(df[channel_name_3].to_numpy(), (output_width, output_height)),
+        np.reshape(df[channel_name_3].to_numpy().astype(float), (output_width, output_height)),
         ChannelApi.find_channel_by_name(channel_data_map, channel_name_3)) \
         if channel_name_3 else np.zeros((output_width, output_height)).astype(np.uint8)
 
@@ -118,9 +118,9 @@ def __check_and_find_channels_for_hsv(df: pd.DataFrame, channel_data_map: [Chann
 
     __raise_exception_if_channels_not_standarized([channel_data_1, channel_data_2, channel_data_3])
 
-    return np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)), \
-           np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)), \
-           np.reshape(df[channel_name_3].to_numpy(), (output_width, output_height))
+    return np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)).astype(float), \
+           np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)).astype(float), \
+           np.reshape(df[channel_name_3].to_numpy(), (output_width, output_height)).astype(float)
 
 
 def __reshape_channels_to_channel_image_arrays(df: pd.DataFrame,
