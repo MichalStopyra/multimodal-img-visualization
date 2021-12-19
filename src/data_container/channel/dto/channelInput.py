@@ -1,6 +1,6 @@
 from abc import ABCMeta
 
-from src.input_data.channel.channelData import ChannelData
+from src.data_container.channel.dto.channelData import ChannelData
 
 
 class ChannelInputInterface:
@@ -18,6 +18,6 @@ class ChannelInput(ChannelInputInterface):
 
 
 class ChannelInputMock(ChannelInputInterface):
-    def __init__(self, channel_name: str, bit_size: int,  pixel_values: [float]):
+    def __init__(self, channel_name: str, bit_size: int, pixel_values: [float]):
         super().__init__([ChannelData(channel_name, bit_size)])
         self.pixel_values = pixel_values

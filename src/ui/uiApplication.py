@@ -1,15 +1,16 @@
 import sys
 
 from PyQt5.QtWidgets import QApplication
-from src.ui.uiMainWindow import UiMainWindow
+
+from src.ui._uiMainWindow import _UiMainWindow
 
 
 class UiApplication:
     def __init__(self):
         # ui settings
         app = QApplication(sys.argv)
-        win = UiMainWindow()
+        win = _UiMainWindow()
 
         # display
-        win.show()
+        win._show()
         sys.exit(app.exec_())
