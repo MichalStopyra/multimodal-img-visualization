@@ -9,7 +9,8 @@ class DataContainer:
     def __init__(self):
         self.multimodal_image = None
         self.standarized_image_df = None
-        self.decomposed_image_df = None
+        # self.decomposed_image_df = None
+        self.decomposed_channels_data_map = []
 
     def get_channels_data_map(self) -> [ChannelData]:
         return self.multimodal_image.channels_data_map

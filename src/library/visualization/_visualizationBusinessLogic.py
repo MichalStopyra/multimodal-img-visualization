@@ -40,7 +40,7 @@ def _df_to_image_and_save(df: pd.DataFrame, channel_data_map: [ChannelData], des
             np.reshape(df[channel_name_1].to_numpy().astype(float), (output_width, output_height)),
             ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)) \
             if destandarize \
-            else ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)
+            else ChannelApi.find_channel_by_name(channel_data_map, channel_name_1) # TODO else ok??????????
 
     elif visualization_channels_type == VisualizationChannelsEnum.RGB:
         channel_1, channel_2, channel_3 = \
