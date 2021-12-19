@@ -119,15 +119,23 @@ def save_image_to_file(image_array: np.ndarray, image_name: str, image_format: O
     VisualizationApi.save_img(image_array, image_name, image_format)
 
 
-def decompose_image_wrapper(data_container: DataContainer,
-                            decomposition_type: DecompositionEnum,
-                            fast_ica_n_components=None):
+def decompose_channel_wrapper(data_container: DataContainer, channel_name: str,
+                              decomposition_type: DecompositionEnum,
+                              fast_ica_n_components=None):
     """
-           decompose_image_wrapper transforms an image using chosen decomposition type - PCA, FastICA, NMF
+           decompose_channel_wrapper transforms a chosen channel using chosen decomposition type - PCA, FastICA, NMF
     """
 
-    data_container.decomposed_image_df = \
-        DecompositionApi.decompose_image_wrapper(data_container.get_image_df(),
-                                                 decomposition_type, fast_ica_n_components)
+    data_container.multimodal_image.image_df, data_container.decomposed_channels_data_map = \
+        DecompositionApi.decompose_channel_wrapper(data_container.get_image_df(),
+                                                   data_container.get_channels_data_map(),
+                                                   data_container.decomposed_channels_data_map, channel_name,
+                                                   decomposition_type, fast_ica_n_components)
+
+
+def reverse_decompose_channel(data_container: DataContainer, channel_name: str):
+    data_container.multimodal_image.image_df = \
+        DecompositionApi.reverse_decompose_channel(data_container.get_image_df(), channel_name,
+                                                   data_container.decomposed_channels_data_map)
 
 # -----------------------------------------------------------------------------

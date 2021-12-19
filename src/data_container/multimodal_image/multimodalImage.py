@@ -24,6 +24,10 @@ class MultimodalImage:
             else:
                 raise Exception("Channel input is of wrong type")
 
+            for channel_data in channel.channels_names_and_bit_sizes:
+                channel_data.width = input_mat.shape[0]
+                channel_data.height = input_mat.shape[1]
+
             ready_channels.append(ReadyChannel(input_mat, channel.channels_names_and_bit_sizes))
 
         return self.__ready_channels_to_df(ready_channels)
