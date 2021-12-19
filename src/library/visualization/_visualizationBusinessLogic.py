@@ -118,9 +118,9 @@ def __check_and_find_channels_for_hsv(df: pd.DataFrame, channel_data_map: [Chann
 
     __raise_exception_if_channels_not_standarized([channel_data_1, channel_data_2, channel_data_3])
 
-    return np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)), \
-           np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)), \
-           np.reshape(df[channel_name_3].to_numpy(), (output_width, output_height))
+    return np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)).astype(float), \
+           np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)).astype(float), \
+           np.reshape(df[channel_name_3].to_numpy(), (output_width, output_height)).astype(float)
 
 
 def __reshape_channels_to_channel_image_arrays(df: pd.DataFrame,

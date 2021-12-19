@@ -1,3 +1,4 @@
+import decimal
 from typing import Dict
 
 import numpy as np
@@ -17,10 +18,10 @@ def _standarize_image_channels(df: pd.DataFrame, channels_to_exclude: [str],
 
     result = df.copy()
     for column in df.columns:
+        df[column] = df[column].astype("string").apply(decimal.Decimal)
+
         if column in channels_to_exclude:
             continue
-
-        df[column] = df[column].astype(float)
 
         channel_data = ChannelApi.find_channel_by_name(channels_data_map, column)
 
