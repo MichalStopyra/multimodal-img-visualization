@@ -8,11 +8,7 @@ from src.library.properties.properties import REVERSE_DECOMPOSED_CHANNEL_NAME_TE
 
 def _reverse_decompose_channel(df: pd.DataFrame, channel_name: str, decomposed_channels_data: [DecomposedChannelData]) \
         -> pd.DataFrame:
-    data_list = list(filter(lambda dcd: dcd.original_channel_name == channel_name, decomposed_channels_data))
-    if not data_list or len(data_list) > 1:
-        raise Exception("Not enough data to perform reverse decomposition")
-
-    decomposed_channel_data = data_list[0]
+    decomposed_channel_data = get_decomposed_channel_data(decomposed_channels_data, channel_name)
 
     channel_to_reverse_decompose_df = __prepare_channel_to_reverse_decompose_df(channel_name, decomposed_channel_data,
                                                                                 df)
@@ -24,6 +20,14 @@ def _reverse_decompose_channel(df: pd.DataFrame, channel_name: str, decomposed_c
 
     reverse_decomposed_channel_df.columns = [REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE + channel_name]
     return pd.concat([df, reverse_decomposed_channel_df], axis=1)
+
+
+def get_decomposed_channel_data(decomposed_channels_data: [DecomposedChannelData], channel_name: str):
+    data_list = list(filter(lambda dcd: dcd.original_channel_name == channel_name, decomposed_channels_data))
+    if not data_list or len(data_list) > 1:
+        raise Exception("Not enough data to perform reverse decomposition")
+    decomposed_channel_data = data_list[0]
+    return decomposed_channel_data
 
 
 def __prepare_channel_to_reverse_decompose_df(channel_name: str, decomposed_channel_data: DecomposedChannelData,

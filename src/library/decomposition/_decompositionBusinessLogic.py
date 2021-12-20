@@ -7,18 +7,32 @@ from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
-from src.library.properties.properties import PCA_VARIATION_MIN_VALUE, DECOMPOSED_CHANNEL_NAME_TEMPLATE
+from src.library.properties.properties import PCA_VARIATION_MIN_VALUE, DECOMPOSED_CHANNEL_NAME_TEMPLATE, \
+    STANDARIZED_CHANNEL_NAME_TEMPLATE
+from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
+from src.library.standarization.standarizationApi import StandarizationApi
 
 
 def _decompose_channel_wrapper(df: pd.DataFrame, channels_data_map: [ChannelData],
                                decomposed_channels_data_map: [DecomposedChannelData],
+                               standarized_channels_data_map: [StandarizedChannelData],
                                channel_name: str, decomposition_type: DecompositionEnum,
+                               take_standarized_channel: bool,
                                fast_ica_n_components=None) -> (pd.DataFrame, DecomposedChannelData):
     # PCA has good mechanism to calculate n_components automatically
 
-    # TODO: add resolution param
     channel_data = ChannelApi.find_channel_by_name(channels_data_map, channel_name)
-    channel_to_decompose_df = pd.DataFrame(data=df[channel_name].to_numpy()
+
+    if take_standarized_channel:
+        if StandarizationApi.is_channel_standarized(channel_name, standarized_channels_data_map):
+            actual_channel_name_for_decomposition = STANDARIZED_CHANNEL_NAME_TEMPLATE + channel_name
+        else:
+            print("Channel ", channel_name, " was not standarized - taking not standarized values")
+            actual_channel_name_for_decomposition = channel_name
+    else:
+        actual_channel_name_for_decomposition = channel_name
+
+    channel_to_decompose_df = pd.DataFrame(data=df[actual_channel_name_for_decomposition].to_numpy()
                                            .reshape(channel_data.width, channel_data.height))
     channel_to_decompose_df.attrs['channel_name'] = channel_name
     if decomposition_type == DecompositionEnum.PCA:
@@ -87,8 +101,3 @@ def _print_explained_variance_ratio(df: pd.DataFrame):
     plt.axhline(y=PCA_VARIATION_MIN_VALUE, color='r', linestyle='-')
 
     plt.show()
-
-#
-# def __add_decomposed_channels_data_to_channels_map(channels_data_map: [ChannelData], columns: [str]):
-#     for column in columns:
-#         channels_data_map.append(ChannelData(column, ))

@@ -36,7 +36,7 @@ def _df_to_image_and_save(df: pd.DataFrame, channel_data_map: [ChannelData], des
         if channel_name_2 or channel_name_3:
             print("Gray scale image chosen - channels 2 and 3 will be omitted")
 
-        result_array = StandarizationApi.destandarize_channel(
+        result_array = StandarizationApi.destandarize_channel_array(
             np.reshape(df[channel_name_1].to_numpy().astype(float), (output_width, output_height)),
             ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)) \
             if destandarize \
@@ -90,17 +90,17 @@ def __df_destandarize_and_map_to_separate_channels_arrays(df, output_width, outp
     if not channel_name_1 and not channel_name_2 and not channel_name_3:
         raise Exception("ERROR: No channels specified for displaying")
 
-    channel_1 = StandarizationApi.destandarize_channel(
+    channel_1 = StandarizationApi.destandarize_channel_array(
         np.reshape(df[channel_name_1].to_numpy().astype(float), (output_width, output_height)),
         ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)) \
         if channel_name_1 else np.zeros((output_width, output_height)).astype(np.uint8)
 
-    channel_2 = StandarizationApi.destandarize_channel(
+    channel_2 = StandarizationApi.destandarize_channel_array(
         np.reshape(df[channel_name_2].to_numpy().astype(float), (output_width, output_height)),
         ChannelApi.find_channel_by_name(channel_data_map, channel_name_2)) \
         if channel_name_2 else np.zeros((output_width, output_height)).astype(np.uint8)
 
-    channel_3 = StandarizationApi.destandarize_channel(
+    channel_3 = StandarizationApi.destandarize_channel_array(
         np.reshape(df[channel_name_3].to_numpy().astype(float), (output_width, output_height)),
         ChannelApi.find_channel_by_name(channel_data_map, channel_name_3)) \
         if channel_name_3 else np.zeros((output_width, output_height)).astype(np.uint8)

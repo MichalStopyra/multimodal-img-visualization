@@ -36,22 +36,22 @@ def standarize_image_channels(data_container: DataContainer,
         It is possible to exclude some channels from standarization, adding their names as channels_to_exclude array arg
     """
 
-    data_container.standarized_image_df, data_container.multimodal_image.channels_data_map = \
+    data_container.multimodal_image.image_df, data_container.standarized_channels_data_map = \
         StandarizationApi.standarize_image_channels(data_container.get_image_df(), channels_to_exclude,
-                                                    data_container.get_channels_data_map(), standarization_modes)
+                                                    data_container.get_channels_data_map(),
+                                                    data_container.standarized_channels_data_map,
+                                                    standarization_modes)
 
 
-def destandarize_channel_by_name(data_container: DataContainer,
-                                 channel_array: np.ndarray, channel_name: str) -> np.ndarray:
+def destandarize_channel_by_name(data_container: DataContainer, original_channel_name: str):
     """
-        standarize_image_channels standarizes multimodal image channels
-        It is possible to exclude some channels from standarization, adding their names as channels_to_exclude array arg
+        destandarize_channel_by_name destandarizes multimodal image channels according to the way it was standarized
     """
 
-    return StandarizationApi.destandarize_channel(channel_array,
-                                                  ChannelApi.find_channel_by_name(
-                                                      data_container.get_channels_data_map(),
-                                                      channel_name))
+    data_container.multimodal_image.image_df, data_container.destandarized_channels_data_map = \
+        StandarizationApi.destandarize_channel(data_container.get_image_df(), original_channel_name,
+                                               data_container.standarized_channels_data_map,
+                                               data_container.destandarized_channels_data_map)
 
 
 def multimodal_image_df_to_image_save_file(data_container: DataContainer,
@@ -120,7 +120,7 @@ def save_image_to_file(image_array: np.ndarray, image_name: str, image_format: O
 
 
 def decompose_channel_wrapper(data_container: DataContainer, channel_name: str,
-                              decomposition_type: DecompositionEnum,
+                              decomposition_type: DecompositionEnum, take_standarized_channel: bool,
                               fast_ica_n_components=None):
     """
            decompose_channel_wrapper transforms a chosen channel using chosen decomposition type - PCA, FastICA, NMF
@@ -129,8 +129,10 @@ def decompose_channel_wrapper(data_container: DataContainer, channel_name: str,
     data_container.multimodal_image.image_df, data_container.decomposed_channels_data_map = \
         DecompositionApi.decompose_channel_wrapper(data_container.get_image_df(),
                                                    data_container.get_channels_data_map(),
-                                                   data_container.decomposed_channels_data_map, channel_name,
-                                                   decomposition_type, fast_ica_n_components)
+                                                   data_container.decomposed_channels_data_map,
+                                                   data_container.standarized_channels_data_map,
+                                                   channel_name,
+                                                   decomposition_type, take_standarized_channel, fast_ica_n_components)
 
 
 def reverse_decompose_channel(data_container: DataContainer, channel_name: str):

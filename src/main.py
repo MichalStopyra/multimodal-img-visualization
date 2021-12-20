@@ -23,9 +23,11 @@ if __name__ == '__main__':
         'g': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
         'b': StandarizationModeEnum.BIT_SIZE_MIN_MAX
     })
-    decompose_channel_wrapper(data_container, 'r', DecompositionEnum.PCA)
-    decompose_channel_wrapper(data_container, 'g', DecompositionEnum.PCA)
-    decompose_channel_wrapper(data_container, 'b', DecompositionEnum.PCA)
+
+    destandarize_channel_by_name(data_container, 'r')
+    decompose_channel_wrapper(data_container, 'r', DecompositionEnum.PCA, True)
+    decompose_channel_wrapper(data_container, 'g', DecompositionEnum.PCA, True)
+    decompose_channel_wrapper(data_container, 'b', DecompositionEnum.PCA, True)
 
     reverse_decompose_channel(data_container, 'r')
     reverse_decompose_channel(data_container, 'g')
