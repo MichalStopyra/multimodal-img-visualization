@@ -8,9 +8,12 @@ from src.data_container.multimodal_image.multimodalImage import MultimodalImage
 class DataContainer:
     def __init__(self):
         self.multimodal_image = None
-        self.standarized_image_df = None
-        # self.decomposed_image_df = None
+
         self.decomposed_channels_data_map = []
+        self.rvrs_decomposed_channels_data_map = []
+
+        self.standarized_channels_data_map = []
+        self.destandarized_channels_data_map = []
 
     def get_channels_data_map(self) -> [ChannelData]:
         return self.multimodal_image.channels_data_map

@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
+from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
+from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.visualization._visualizationBusinessLogic import _save_img, _df_to_image_and_save
 from src.library.visualization.enum.outputImageFormatEnum import OutputImageFormatEnum
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
@@ -10,13 +12,16 @@ from src.library.visualization.enum.visualizationChannelsEnum import Visualizati
 class VisualizationApi:
 
     @staticmethod
-    def df_to_image_and_save(df: pd.DataFrame, channel_data_map: [ChannelData], destandarize: bool, output_name: str,
+    def df_to_image_and_save(df: pd.DataFrame, channel_data_map: [ChannelData], output_name: str,
                              output_width: int, output_height: int, output_format: OutputImageFormatEnum,
                              output_channels_type: VisualizationChannelsEnum,
+                             std_channels_data_map: [StandarizedChannelData],
+                             rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
                              channel_name_1: str = None, channel_name_2: str = None, channel_name_3: str = None):
-        _df_to_image_and_save(df, channel_data_map, destandarize, output_name, output_width, output_height,
+        _df_to_image_and_save(df, channel_data_map, output_name, output_width, output_height,
                               output_format,
                               output_channels_type,
+                              std_channels_data_map, rvrs_decomposed_channels_data_map,
                               channel_name_1, channel_name_2, channel_name_3)
 
     @staticmethod
