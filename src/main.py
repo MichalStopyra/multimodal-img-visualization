@@ -1,7 +1,7 @@
 from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.channel.dto.channelInput import ChannelInput
 from src.library.libraryApi import *
-from src.library.properties.properties import REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE
+from src.library.properties.properties import *
 
 if __name__ == '__main__':
     data_container = DataContainer()
@@ -24,7 +24,6 @@ if __name__ == '__main__':
         'b': StandarizationModeEnum.BIT_SIZE_MIN_MAX
     })
 
-    destandarize_channel_by_name(data_container, 'r')
     decompose_channel_wrapper(data_container, 'r', DecompositionEnum.PCA, True)
     decompose_channel_wrapper(data_container, 'g', DecompositionEnum.PCA, True)
     decompose_channel_wrapper(data_container, 'b', DecompositionEnum.PCA, True)
@@ -33,10 +32,14 @@ if __name__ == '__main__':
     reverse_decompose_channel(data_container, 'g')
     reverse_decompose_channel(data_container, 'b')
 
-    multimodal_image_df_to_image_save_file(data_container, 'test_hsv', 1024, 1024,
+    destandarize_channel_by_name(data_container, 'r', True)
+    destandarize_channel_by_name(data_container, 'g', True)
+    destandarize_channel_by_name(data_container, 'b', True)
+
+    multimodal_image_df_to_image_save_file(data_container, 'test', 1024, 1024,
                                            OutputImageFormatEnum.PNG, VisualizationChannelsEnum.RGB,
-                                           REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE + 'r',
-                                           REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE + 'g',
-                                           REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE + 'b')
+                                           DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE + 'r',
+                                           DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE + 'g',
+                                           DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE + 'b')
 
     # app = UiApplication()

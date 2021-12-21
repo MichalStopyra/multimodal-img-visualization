@@ -5,6 +5,7 @@ from src.library.decomposition._decompositionBusinessLogic import _decompose_cha
     _print_explained_variance_ratio
 from src.library.decomposition._reverseDecompositionBusinessLogic import _reverse_decompose_channel
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
+from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 
@@ -17,7 +18,7 @@ class DecompositionApi:
                                   channel_name: str,
                                   decomposition_type: DecompositionEnum,
                                   take_standarized_channel: bool,
-                                  fast_ica_n_components=None) -> (pd.DataFrame, DecomposedChannelData):
+                                  fast_ica_n_components=None) -> (pd.DataFrame, [DecomposedChannelData]):
         return _decompose_channel_wrapper(df, channels_data_map, decomposed_channels_data_map,
                                           standarized_channels_data_map,
                                           channel_name, decomposition_type,
@@ -28,6 +29,7 @@ class DecompositionApi:
         _print_explained_variance_ratio(df)
 
     @staticmethod
-    def reverse_decompose_channel(df: pd.DataFrame, channel_name: str, decomposed_channels_data: [DecomposedChannelData]
-                                  ) -> pd.DataFrame:
-        return _reverse_decompose_channel(df, channel_name, decomposed_channels_data)
+    def reverse_decompose_channel(df: pd.DataFrame, channel_name: str, decomposed_channels_data: [DecomposedChannelData],
+                                  rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData]
+                                  ) -> (pd.DataFrame, [ReverseDecomposedChannelData]):
+        return _reverse_decompose_channel(df, channel_name, decomposed_channels_data, rvrs_decomposed_channels_data_map)
