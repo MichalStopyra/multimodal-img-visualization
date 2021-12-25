@@ -3,7 +3,6 @@ from typing import Dict
 import numpy as np
 import pandas as pd
 
-from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelInput import ChannelInputInterface
 from src.data_container.dataContainer import DataContainer
 from src.library.decomposition.decompositionApi import DecompositionApi
@@ -63,7 +62,7 @@ def destandarize_channel_by_name(data_container: DataContainer, initial_channel_
 def multimodal_image_df_to_image_save_file(data_container: DataContainer,
                                            output_name: str, output_width: int, output_height: int,
                                            output_format: OutputImageFormatEnum,
-                                           output_channels_type: VisualizationChannelsEnum,
+                                           visualization_channels_type: VisualizationChannelsEnum,
                                            channel_name_1: str = None, channel_name_2: str = None,
                                            channel_name_3: str = None):
     """
@@ -72,12 +71,29 @@ def multimodal_image_df_to_image_save_file(data_container: DataContainer,
     """
 
     VisualizationApi.df_to_image_and_save(data_container.get_image_df(),
-                                          data_container.get_channels_data_map(),
                                           output_name, output_width, output_height, output_format,
-                                          output_channels_type,
+                                          visualization_channels_type,
                                           data_container.standarized_channels_data_map,
+                                          data_container.decomposed_channels_data_map,
                                           data_container.rvrs_decomposed_channels_data_map,
                                           channel_name_1, channel_name_2, channel_name_3)
+
+
+def decomposed_image_channels_df_to_image_save_file(data_container: DataContainer,
+                                                    output_name: str, output_width: int, output_height: int,
+                                                    output_format: OutputImageFormatEnum,
+                                                    visualization_channels_type: VisualizationChannelsEnum,
+                                                    component_numbers_as_channels: [int]):
+    """
+         decomposed_image_channels_df_to_image_save_file creates an image from decomposed image (decomposed channels)
+         It can create an RGB, HSV or GrayScale image depending on given arguments
+    """
+
+    VisualizationApi.decomposed_image_channels_df_to_image_save_file(data_container.decomposed_image_data,
+                                                                     output_name, output_width, output_height,
+                                                                     output_format,
+                                                                     visualization_channels_type,
+                                                                     component_numbers_as_channels)
 
 
 def save_image_to_file(image_array: np.ndarray, image_name: str, image_format: OutputImageFormatEnum):
@@ -88,20 +104,44 @@ def save_image_to_file(image_array: np.ndarray, image_name: str, image_format: O
     VisualizationApi.save_img(image_array, image_name, image_format)
 
 
-def decompose_channel_wrapper(data_container: DataContainer, channel_name: str,
-                              decomposition_type: DecompositionEnum, take_standarized_channel: bool,
-                              fast_ica_n_components=None) -> (pd.DataFrame, [DecomposedChannelData]):
+def decompose_channel_resolution_wrapper(data_container: DataContainer, channel_name: str,
+                                         decomposition_type: DecompositionEnum, take_standarized_channel: bool,
+                                         fast_ica_n_components=None) -> (pd.DataFrame, [DecomposedChannelData]):
     """
            decompose_channel_wrapper transforms a chosen channel using chosen decomposition type - PCA, FastICA, NMF
     """
 
     data_container.multimodal_image.image_df, data_container.decomposed_channels_data_map = \
-        DecompositionApi.decompose_channel_wrapper(data_container.get_image_df(),
-                                                   data_container.get_channels_data_map(),
-                                                   data_container.decomposed_channels_data_map,
-                                                   data_container.standarized_channels_data_map,
-                                                   channel_name,
-                                                   decomposition_type, take_standarized_channel, fast_ica_n_components)
+        DecompositionApi.decompose_channel_resolution_wrapper(data_container.get_image_df(),
+                                                              data_container.get_channels_data_map(),
+                                                              data_container.decomposed_channels_data_map,
+                                                              data_container.standarized_channels_data_map,
+                                                              channel_name,
+                                                              decomposition_type, take_standarized_channel,
+                                                              fast_ica_n_components)
+
+
+def decompose_image_channels_wrapper(data_container: DataContainer, decomposition_type: DecompositionEnum,
+                                     channel_names_and_take_std_tuple: [(str, bool)],
+                                     fast_ica_n_components=None):
+    """
+           decompose_image_channels_wrapper transforms a whole multimodal image using chosen decomposition type - PCA, FastICA, NMF
+           as a result image consisting of fewer channels is returned
+    """
+
+    data_container.decomposed_image_data = \
+        DecompositionApi.decompose_image_channels_wrapper(data_container.get_image_df(), decomposition_type,
+                                                          channel_names_and_take_std_tuple,
+                                                          data_container.standarized_channels_data_map,
+                                                          fast_ica_n_components)
+
+
+def rvrs_decompose_image_channels(data_container: DataContainer):
+    """
+           TODO
+    """
+    data_container.rvrs_decomposed_image_df = DecompositionApi.rvrs_decompose_image_channels(
+        data_container.decomposed_image_data)
 
 
 def reverse_decompose_channel(data_container: DataContainer, channel_name: str

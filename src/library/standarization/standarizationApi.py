@@ -33,11 +33,11 @@ class StandarizationApi:
                                      rvrs_decomposed_channels_data_map)
 
     @staticmethod
-    def is_channel_standarized(original_channel_name: str, std_channels_data_map: [StandarizedChannelData]
+    def is_channel_standarized(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]
                                ) -> bool:
-        return _is_channel_standarized(original_channel_name, std_channels_data_map)
+        return _is_channel_standarized(initial_channel_name, std_channels_data_map)
 
     @staticmethod
-    def find_std_channel_data_by_name(original_channel_name: str, std_channels_data_map: [StandarizedChannelData]
+    def find_std_channel_data_by_name(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]
                                       ) -> StandarizedChannelData:
-        return _find_channel_data_in_map_by_initial_name(original_channel_name, std_channels_data_map)
+        return _find_channel_data_in_map_by_initial_name(initial_channel_name, std_channels_data_map)

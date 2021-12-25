@@ -90,18 +90,18 @@ def _destandarize_channel(df: pd.DataFrame, initial_channel_name: str, after_rev
     return pd.concat([df, destandarized_channel_df], axis=1), destandarized_channels_data_map
 
 
-def _is_channel_standarized(original_channel_name: str, std_channels_data_map: [StandarizedChannelData]
+def _is_channel_standarized(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]
                             ) -> bool:
     map_element_list = list(filter(
-        lambda channel: channel.original_channel_name == original_channel_name, std_channels_data_map))
+        lambda channel: channel.initial_channel_name == initial_channel_name, std_channels_data_map))
 
     return map_element_list is not None and len(map_element_list) != 0
 
 
-def _find_channel_data_in_map_by_initial_name(original_channel_name: str,
+def _find_channel_data_in_map_by_initial_name(initial_channel_name: str,
                                               std_channels_data_map: [any]
                                               ) -> any:
     map_element_list = list(filter(
-        lambda channel: channel.original_channel_name == original_channel_name, std_channels_data_map))
+        lambda channel: channel.initial_channel_name == initial_channel_name, std_channels_data_map))
 
     return map_element_list[0] if map_element_list is not None and len(map_element_list) == 1 else None
