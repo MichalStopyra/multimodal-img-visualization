@@ -18,7 +18,7 @@ def _decomposed_image_channels_df_to_image_save_file(decomposed_image_data: Deco
                                                      output_format: OutputImageFormatEnum,
                                                      visualization_channels_type: VisualizationChannelsEnum,
                                                      component_numbers_as_channels: [int]):
-    _validate_channel_indexes(component_numbers_as_channels, decomposed_image_data)
+    _validate_channel_indexes(component_numbers_as_channels, decomposed_image_data.decomposed_image_df)
 
     _validate_number_of_channels_for_decomposed_image_channels(visualization_channels_type,
                                                                len(component_numbers_as_channels))
@@ -38,6 +38,36 @@ def _decomposed_image_channels_df_to_image_save_file(decomposed_image_data: Deco
 
     elif visualization_channels_type == VisualizationChannelsEnum.RGB:
         channel_1, channel_2, channel_3 = __rgb_prepare_channels(decomposed_image_data.decomposed_image_df,
+                                                                 component_numbers_as_channels, output_width,
+                                                                 output_height)
+
+        result_array = cv2.merge((channel_1, channel_2, channel_3))
+
+    else:
+        raise Exception("Error - Wrong Visualization Type")
+
+    _save_img(result_array, output_name, output_format)
+
+
+def _decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file(decomposed_rvrs_dcmpsd_image_df: pd.DataFrame,
+                                                                 output_name: str,
+                                                                 output_width: int, output_height: int,
+                                                                 output_format: OutputImageFormatEnum,
+                                                                 visualization_channels_type: VisualizationChannelsEnum,
+                                                                 component_numbers_as_channels: [int]):
+    _validate_channel_indexes(component_numbers_as_channels, decomposed_rvrs_dcmpsd_image_df)
+
+    _validate_number_of_channels_for_decomposed_image_channels(visualization_channels_type,
+                                                               len(component_numbers_as_channels))
+
+    if visualization_channels_type == VisualizationChannelsEnum.HSV:
+        raise Exception("Cannot display hsv image after reverse decomposition on whole image!")
+    elif visualization_channels_type == VisualizationChannelsEnum.GRAY_SCALE:
+        result_array = np.reshape(decomposed_rvrs_dcmpsd_image_df.iloc[:, component_numbers_as_channels[0]]
+                                  .astype(float).to_numpy().astype(np.uint8), (output_width, output_height))
+
+    elif visualization_channels_type == VisualizationChannelsEnum.RGB:
+        channel_1, channel_2, channel_3 = __rgb_prepare_channels(decomposed_rvrs_dcmpsd_image_df,
                                                                  component_numbers_as_channels, output_width,
                                                                  output_height)
 

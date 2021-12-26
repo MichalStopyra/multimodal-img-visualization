@@ -4,6 +4,7 @@ from src.data_container.decomposed_image.decomposedImage import DecomposedImage
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.properties.properties import REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE, DECOMPOSED_CHANNEL_NAME_TEMPLATE
+from src.library.standarization.standarizationApi import StandarizationApi
 
 
 def _reverse_decompose_channel(df: pd.DataFrame, channel_name: str, decomposed_channels_data: [DecomposedChannelData],
@@ -28,8 +29,11 @@ def _reverse_decompose_channel(df: pd.DataFrame, channel_name: str, decomposed_c
 
 
 def _rvrs_decompose_image_channels(decomposed_image_data: DecomposedImage) -> pd.DataFrame:
-    return decomposed_image_data.decomposition_object.inverse_transform(
+    rvrs_decomposed_img_array = decomposed_image_data.decomposition_object.inverse_transform(
         decomposed_image_data.decomposed_image_df)
+
+    return StandarizationApi.destandarize_decomposed_image_channels_basic(rvrs_decomposed_img_array,
+                                                                          decomposed_image_data.image_standarized)
 
 
 def __get_decomposed_channel_data(decomposed_channels_data: [DecomposedChannelData], channel_name: str):

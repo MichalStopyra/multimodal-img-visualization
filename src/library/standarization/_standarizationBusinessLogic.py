@@ -8,7 +8,8 @@ from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.properties.properties import STANDARIZED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_CHANNEL_NAME_TEMPLATE, \
-    REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE
+    REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE, \
+    STD_MAX_PIXEL_VALUE
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
@@ -88,6 +89,28 @@ def _destandarize_channel(df: pd.DataFrame, initial_channel_name: str, after_rev
     destandarized_channels_data_map.append(
         DestandarizedChannelData(initial_channel_name, column_final_name, after_reverse_decomposition))
     return pd.concat([df, destandarized_channel_df], axis=1), destandarized_channels_data_map
+
+
+def _destandarize_rvrs_decomposed_image_channels_basic(rvrs_dcmpsd_image_array: np.ndarray, image_standarized: bool
+                                                       ) -> pd.DataFrame:
+    if not image_standarized:
+        print("WARNING - cannot destandarized image that is not standarized in the first place! Proceeding...")
+        return pd.DataFrame(data=rvrs_dcmpsd_image_array.astype("str").astype(decimal.Decimal))
+
+    df = pd.DataFrame(data=rvrs_dcmpsd_image_array)
+    for column in df.columns:
+        multiplier = float(STD_MAX_PIXEL_VALUE)
+        std_channel_array = df[column].to_numpy().astype(float)
+
+        if std_channel_array.max() > 1:
+            print("WARNING! - decomposed image is standarized, but ", column, " values are bigger than 1!")
+            multiplier /= std_channel_array.max()
+
+        df[column] = (np.round(
+            std_channel_array * multiplier, 0) % STD_MAX_PIXEL_VALUE) \
+            .astype("str").astype(decimal.Decimal)
+
+    return df
 
 
 def _is_channel_standarized(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]

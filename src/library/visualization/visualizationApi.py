@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.visualization._decomposedImageVisualizationBusinessLogic import \
-    _decomposed_image_channels_df_to_image_save_file
+    _decomposed_image_channels_df_to_image_save_file, _decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file
 from src.library.visualization._visualizationBusinessLogic import _save_img, _df_to_image_and_save
 from src.library.visualization.enum.outputImageFormatEnum import OutputImageFormatEnum
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
@@ -44,3 +43,15 @@ class VisualizationApi:
                                                          output_name, output_width, output_height,
                                                          output_format, visualization_channels_type,
                                                          component_numbers_as_channels)
+
+    @staticmethod
+    def decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file(decomposed_rvrs_dcmpsd_image_df: pd.DataFrame,
+                                                                    output_name: str,
+                                                                    output_width: int, output_height: int,
+                                                                    output_format: OutputImageFormatEnum,
+                                                                    visualization_channels_type: VisualizationChannelsEnum,
+                                                                    component_numbers_as_channels: [int]):
+        _decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file(decomposed_rvrs_dcmpsd_image_df,
+                                                                     output_name, output_width, output_height,
+                                                                     output_format, visualization_channels_type,
+                                                                     component_numbers_as_channels)

@@ -7,16 +7,22 @@ from src.data_container.multimodal_image.multimodalImage import MultimodalImage
 
 class DataContainer:
     def __init__(self):
-        self.multimodal_image = None # type MultimodalImage
+        self.multimodal_image = None  # type MultimodalImage
 
+        # Single channel decomposition (decreasing channel resolution)
         self.decomposed_channels_data_map = []
         self.rvrs_decomposed_channels_data_map = []
 
         self.standarized_channels_data_map = []
         self.destandarized_channels_data_map = []
 
-        self.decomposed_image_data = None # type DecomposedImage
-        self.rvrs_decomposed_image_df = None
+        # Whole image decomposition (decreasing the amount of channels)
+        self.decomposed_image_data = None  # type DecomposedImage
+        self.decomposed_rvrs_dcmpsd_image_df = None
+
+        # gui fields
+        initial_channel_names = []
+        available_channel_names = []
 
     def get_channels_data_map(self) -> [ChannelData]:
         return self.multimodal_image.channels_data_map

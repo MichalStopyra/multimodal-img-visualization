@@ -8,5 +8,3 @@ class DecomposedChannelData:
         self.decomposed_channel_name: Final = decomposed_channel_name
         self.decomposition_object = decomposition_object
         self.from_standarized_channel = from_standarized_channel
-
-

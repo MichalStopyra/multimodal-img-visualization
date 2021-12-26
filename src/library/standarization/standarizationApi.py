@@ -1,11 +1,13 @@
 from typing import Dict
 
+import numpy as np
 import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.standarization._standarizationBusinessLogic import _standarize_image_channels, \
-    _destandarize_channel, _is_channel_standarized, _find_channel_data_in_map_by_initial_name
+    _destandarize_channel, _is_channel_standarized, _find_channel_data_in_map_by_initial_name, \
+    _destandarize_rvrs_decomposed_image_channels_basic
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
@@ -41,3 +43,8 @@ class StandarizationApi:
     def find_std_channel_data_by_name(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]
                                       ) -> StandarizedChannelData:
         return _find_channel_data_in_map_by_initial_name(initial_channel_name, std_channels_data_map)
+
+    @staticmethod
+    def destandarize_decomposed_image_channels_basic(rvrs_dcmpsd_image_array: np.ndarray, image_standarized: bool
+                                                     ) -> pd.DataFrame:
+        return _destandarize_rvrs_decomposed_image_channels_basic(rvrs_dcmpsd_image_array, image_standarized)

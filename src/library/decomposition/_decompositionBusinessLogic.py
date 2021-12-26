@@ -22,6 +22,10 @@ def _decompose_channel_resolution_wrapper(df: pd.DataFrame, channels_data_map: [
                                           fast_ica_n_components=None) -> (pd.DataFrame, [DecomposedChannelData]):
     # PCA has good mechanism to calculate n_components automatically
 
+    if __is_channel_decomposed(decomposed_channels_data_map, channel_name):
+        print("Channel: ", channel_name, " already decomposed! Returning...")
+        return df, decomposed_channels_data_map
+
     channel_data = ChannelApi.find_channel_by_name(channels_data_map, channel_name)
 
     if take_standarized_channel:
@@ -186,3 +190,8 @@ def __is_channel_standarized(initial_channel_name: str, std_channels_data_map: [
         lambda channel: channel.initial_channel_name == initial_channel_name, std_channels_data_map))
 
     return map_element_list is not None and len(map_element_list) != 0
+
+
+def __is_channel_decomposed(decomposed_channels_data: [DecomposedChannelData], channel_name: str):
+    data_list = list(filter(lambda dcd: dcd.initial_channel_name == channel_name, decomposed_channels_data))
+    return data_list and len(data_list) == 1

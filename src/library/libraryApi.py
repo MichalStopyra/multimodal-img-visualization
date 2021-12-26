@@ -96,6 +96,25 @@ def decomposed_image_channels_df_to_image_save_file(data_container: DataContaine
                                                                      component_numbers_as_channels)
 
 
+def decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file(data_container: DataContainer,
+                                                                output_name: str, output_width: int, output_height: int,
+                                                                output_format: OutputImageFormatEnum,
+                                                                visualization_channels_type: VisualizationChannelsEnum,
+                                                                component_numbers_as_channels: [int]):
+    """
+    TODO:
+         decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file creates an image from decomposed image (decomposed channels)
+         It can create an RGB, HSV or GrayScale image depending on given arguments
+    """
+
+    VisualizationApi.decomposed_rvrs_dcmpsd_image_channels_df_to_image_save_file(
+        data_container.decomposed_rvrs_dcmpsd_image_df,
+        output_name, output_width, output_height,
+        output_format,
+        visualization_channels_type,
+        component_numbers_as_channels)
+
+
 def save_image_to_file(image_array: np.ndarray, image_name: str, image_format: OutputImageFormatEnum):
     """
             save_image_to_file saves an image from (np.ndarray) image_array to file
@@ -140,7 +159,7 @@ def rvrs_decompose_image_channels(data_container: DataContainer):
     """
            TODO
     """
-    data_container.rvrs_decomposed_image_df = DecompositionApi.rvrs_decompose_image_channels(
+    data_container.decomposed_rvrs_dcmpsd_image_df = DecompositionApi.rvrs_decompose_image_channels(
         data_container.decomposed_image_data)
 
 

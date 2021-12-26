@@ -1,15 +1,14 @@
 import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
-from src.data_container.decomposed_image.decomposedImage import DecomposedImage
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
 
 
-def _validate_channel_indexes(component_numbers_as_channels: [int], decomposed_image_data: DecomposedImage):
-    if decomposed_image_data.decomposed_image_df.shape[1] < max(component_numbers_as_channels):
+def _validate_channel_indexes(component_numbers_as_channels: [int], image_df: pd.DataFrame):
+    if image_df.shape[1] < max(component_numbers_as_channels):
         raise Exception("ERROR - highest channel index bigger than the amount of channels of decomposed image")
 
 

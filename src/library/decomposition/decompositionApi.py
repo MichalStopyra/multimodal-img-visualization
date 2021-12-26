@@ -6,7 +6,6 @@ from src.library.decomposition._decompositionBusinessLogic import _decompose_cha
     _print_explained_variance_ratio, _decompose_image_channels_wrapper
 from src.library.decomposition._reverseDecompositionBusinessLogic import _reverse_decompose_channel, \
     _rvrs_decompose_image_channels
-from src.library.decomposition.dto import ImgDecompositionChannelSettings
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
@@ -49,4 +48,4 @@ class DecompositionApi:
 
     @staticmethod
     def rvrs_decompose_image_channels(decomposed_image_data: DecomposedImage) -> pd.DataFrame:
-        return  _rvrs_decompose_image_channels(decomposed_image_data)
+        return _rvrs_decompose_image_channels(decomposed_image_data)

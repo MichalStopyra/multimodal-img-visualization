@@ -124,5 +124,3 @@ def __reshape_channels_to_channel_image_arrays(df: pd.DataFrame,
     return np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)).astype(float).astype(np.uint8), \
            np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)).astype(float).astype(np.uint8), \
            np.reshape(df[channel_name_3].to_numpy(), (output_width, output_height)).astype(float).astype(np.uint8)
-
-

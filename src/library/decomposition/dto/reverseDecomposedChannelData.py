@@ -6,4 +6,3 @@ class ReverseDecomposedChannelData:
         self.initial_channel_name: Final = initial_channel_name
         self.rvrs_decomposed_channel_name: Final = rvrs_decomposed_channel_name
         self.from_standarized_channel = from_standarized_channel
-
