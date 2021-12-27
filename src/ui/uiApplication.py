@@ -12,5 +12,5 @@ class UiApplication:
         win = _UiMainWindow()
 
         # display
-        win._show()
+        win.show()
         sys.exit(app.exec_())

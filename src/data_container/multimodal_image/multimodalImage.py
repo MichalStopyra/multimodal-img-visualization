@@ -14,6 +14,11 @@ class MultimodalImage:
     def __init__(self, channels_inputs: [ChannelInputInterface]):
         self.image_df, self.channels_data_map = self.__load_and_convert_mat_to_df(channels_inputs)
 
+    def add_channels_to_multimodal_img(self, channels_inputs: [ChannelInputInterface]):
+        image_df_to_concat, channels_data_map_to_append = self.__load_and_convert_mat_to_df(channels_inputs)
+        self.image_df = pd.concat([self.image_df, image_df_to_concat], axis=1)
+        self.channels_data_map += channels_data_map_to_append
+
     def __load_and_convert_mat_to_df(self, channels_inputs: [ChannelInputInterface]) \
             -> (pd.DataFrame, [ChannelData]):
         ready_channels = []

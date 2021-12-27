@@ -19,8 +19,8 @@ from src.library.visualization.visualizationApi import VisualizationApi
 # ------------------------- MAIN LIBRARY API METHODS--------------------------------------
 
 
-def load_multimodal_image_from_input(data_container: DataContainer,
-                                     channels_inputs: [ChannelInputInterface]):
+def load_new_multimodal_image_from_input(data_container: DataContainer,
+                                         channels_inputs: [ChannelInputInterface]):
     """
           load_multimodal_image_from_input loads multimodal image into data_container
           It is possible to load it from a group of files containing different channels data
@@ -28,6 +28,16 @@ def load_multimodal_image_from_input(data_container: DataContainer,
     """
 
     data_container.load_multimodal_image_from_input(channels_inputs)
+
+
+def add_channels_to_multimodal_img(data_container: DataContainer,
+                                   channels_inputs: [ChannelInputInterface]):
+    """
+    TODO:
+
+    """
+
+    data_container.add_channels_to_multimodal_img(channels_inputs)
 
 
 def standarize_image_channels(data_container: DataContainer,
@@ -46,7 +56,7 @@ def standarize_image_channels(data_container: DataContainer,
 
 
 def destandarize_channel_by_name(data_container: DataContainer, initial_channel_name: str,
-                                 after_reverse_decomposition: bool, ):
+                                 after_reverse_decomposition: bool):
     """
         destandarize_channel_by_name destandarizes multimodal image channels according to the way it was standarized
     """

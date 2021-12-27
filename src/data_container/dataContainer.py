@@ -33,5 +33,8 @@ class DataContainer:
     def load_multimodal_image_from_input(self, channels_inputs: [ChannelInputInterface]):
         self.multimodal_image = MultimodalImage(channels_inputs)
 
+    def add_channels_to_multimodal_img(self, channels_inputs: [ChannelInputInterface]):
+        self.multimodal_image.add_channels_to_multimodal_img(channels_inputs)
+
     def print_image_df_head(self):
         print(self.get_image_df().head())
