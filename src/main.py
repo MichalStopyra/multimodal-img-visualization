@@ -1,50 +1,46 @@
-from src.available_actions.availableActionsApi import AvailableActionsApi
-from src.available_actions.enum.actionTypeEnum import ActionTypeEnum
-from src.data_container.channel.dto.channelInput import ChannelInput
 from src.library.libraryApi import *
 from src.ui.uiApplication import UiApplication
 
 if __name__ == '__main__':
     data_container = DataContainer()
-    # app = UiApplication()
-
-    load_new_multimodal_image_from_input(data_container, [
-        ChannelInput(
-            'resources/sample_images/ball/ball_hsv_B.png',
-            [
-                ('r', 8), ('g', 8), ('b', 8)
-            ]
-        ),
-
-        ChannelInput(
-            'resources/sample_images/ball/ball_AoLP.png',
-            [
-                ('a', 8), ('L', 8), ('P', 8)
-            ]
-        ),
-    ])
-
-    add_channels_to_multimodal_img(data_container, [
-        ChannelInput(
-            'resources/sample_images/ball/ball_hsv_B.png',
-            [
-                ('t', 8), ('t2', 8), ('t1', 8)
-            ]
-        ),
-
-        ChannelInput(
-            'resources/sample_images/ball/ball_AoLP.png',
-            [
-                ('s', 8), ('s1', 8), ('s2', 8)
-            ]
-        ),
-    ])
-    AvailableActionsApi.find_channels_available_for_action(data_container, ActionTypeEnum.STANDARIZE_CHANNELS)
-    standarize_image_channels(data_container, ["P"], {
-        'r': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
-        'g': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
-        'b': StandarizationModeEnum.BIT_SIZE_MIN_MAX
-    })
+    app = UiApplication()
+    #
+    # load_new_multimodal_image_from_input(data_container, [
+    #     ChannelInput(
+    #         'resources/sample_images/ball/ball_hsv_B.png',
+    #         [
+    #             ('r', 8), ('g', 8), ('b', 8)
+    #         ]
+    #     ),
+    #
+    #     ChannelInput(
+    #         'resources/sample_images/ball/ball_AoLP.png',
+    #         [
+    #             ('a', 8), ('L', 8), ('P', 8)
+    #         ]
+    #     ),
+    # ])
+    #
+    # add_channels_to_multimodal_img(data_container, [
+    #     ChannelInput(
+    #         'resources/sample_images/ball/ball_hsv_B.png',
+    #         [
+    #             ('t', 8), ('t2', 8), ('t1', 8)
+    #         ]
+    #     ),
+    #
+    #     ChannelInput(
+    #         'resources/sample_images/ball/ball_AoLP.png',
+    #         [
+    #             ('s', 8), ('s1', 8), ('s2', 8)
+    #         ]
+    #     ),
+    # ])
+    # standarize_image_channels(data_container, ["P"], {
+    #     'r': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
+    #     'g': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
+    #     'b': StandarizationModeEnum.BIT_SIZE_MIN_MAX
+    # })
 
     # decompose_channel_resolution_wrapper(data_container, 'r', DecompositionEnum.PCA, True)
     # decompose_channel_resolution_wrapper(data_container, 'r', DecompositionEnum.NMF, True)

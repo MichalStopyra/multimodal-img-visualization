@@ -20,10 +20,6 @@ class DataContainer:
         self.decomposed_image_data = None  # type DecomposedImage
         self.decomposed_rvrs_dcmpsd_image_df = None
 
-        # gui fields
-        initial_channel_names = []
-        available_channel_names = []
-
     def get_channels_data_map(self) -> [ChannelData]:
         return self.multimodal_image.channels_data_map
 

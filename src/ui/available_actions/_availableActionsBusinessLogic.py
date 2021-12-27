@@ -1,11 +1,7 @@
-import pandas as pd
-
-from src.available_actions.enum.actionTypeEnum import ActionTypeEnum
+from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.data_container.channel.dto.channelData import ChannelData
-from src.data_container.decomposed_image.decomposedImage import DecomposedImage
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.properties.properties import DECOMPOSED_WHOLE_IMAGE_NAME_TEMPLATE
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.logger.loggerSettings import logger
@@ -19,9 +15,29 @@ def _find_all_initial_multimodal_img_channels(channels_data_map: [ChannelData]) 
     return result
 
 
-def _find_all_df_channels(df: pd.DataFrame) -> [str]:
-    return df.columns
+def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChannelData],
+                                destandarized_channels_data_map: [DestandarizedChannelData],
+                                decomposed_channels_data_map: [DecomposedChannelData],
+                                rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData]) -> [str]:
+    channels = []
 
+    if standarized_channels_data_map:
+        for channel in standarized_channels_data_map:
+            channels.append(channel.standarized_channel_name)
+
+    if destandarized_channels_data_map:
+        for channel in destandarized_channels_data_map:
+            channels.append(channel.destandarized_channel_name)
+
+    if decomposed_channels_data_map:
+        for channel in decomposed_channels_data_map:
+            channels.append(channel.decomposed_channel_name)
+
+    if rvrs_decomposed_channels_data_map:
+        for channel in rvrs_decomposed_channels_data_map:
+            channels.append(channel.rvrs_decomposed_channel_name)
+
+    return channels
 
 def _find_channels_available_for_action(action_type: ActionTypeEnum,
                                         channels_data_map: [ChannelData],
