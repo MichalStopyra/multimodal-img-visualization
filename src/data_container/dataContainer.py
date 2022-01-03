@@ -21,7 +21,10 @@ class DataContainer:
         self.decomposed_rvrs_dcmpsd_image_df = None
 
     def get_channels_data_map(self) -> [ChannelData]:
-        return self.multimodal_image.channels_data_map
+        if self.multimodal_image:
+            return self.multimodal_image.channels_data_map
+        else:
+            return None
 
     def get_image_df(self) -> pd.DataFrame:
         return self.multimodal_image.image_df
@@ -30,7 +33,10 @@ class DataContainer:
         self.multimodal_image = MultimodalImage(channels_inputs)
 
     def add_channels_to_multimodal_img(self, channels_inputs: [ChannelInputInterface]):
-        self.multimodal_image.add_channels_to_multimodal_img(channels_inputs)
+        if self.multimodal_image:
+            self.multimodal_image.add_channels_to_multimodal_img(channels_inputs)
+        else:
+            self.load_multimodal_image_from_input(channels_inputs)
 
     def print_image_df_head(self):
         print(self.get_image_df().head())

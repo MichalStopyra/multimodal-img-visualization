@@ -1,10 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 
-from src.data_container.channel.dto.channelInput import ChannelInput
 from src.data_container.dataContainer import DataContainer
-from src.library.libraryApi import load_new_multimodal_image_from_input, standarize_image_channels
+from src.library.libraryApi import standarize_image_channels
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
+from src.ui.mainWindowDialogHelper import *
 from src.ui.refresh_gui.refreshGui import refresh_gui
 
 
@@ -37,7 +37,6 @@ class _UiMainWindow:
         self.centralwidget = QtWidgets.QWidget(self.mainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-
         self.input_image = QtWidgets.QLabel(self.centralwidget)
         self.input_image.setGeometry(QtCore.QRect(0, 0, 121, 111))
         self.input_image.setText("")
@@ -63,7 +62,6 @@ class _UiMainWindow:
         self.frame_buttons.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_buttons.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_buttons.setObjectName("frame_buttons")
-
 
         # BUTTONS
         self.toolButton_standarize_channels = QtWidgets.QToolButton(self.frame_buttons)
@@ -99,6 +97,8 @@ class _UiMainWindow:
         self.toolButton_decompose_whole_image.setText("DECOMPOSE WHOLE IMAGE \n"
                                                       " FROM CHOSEN CHANNELS")
         self.toolButton_decompose_whole_image.setObjectName("toolButton_decompose_whole_image")
+        self.toolButton_decompose_whole_image.clicked.connect(
+            lambda: open_choose_channel_one_std_dialog(self.mainWindow, self.data_container))
 
         self.toolButton_rvrs_decompose_whole_image = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_rvrs_decompose_whole_image.setGeometry(QtCore.QRect(40, 630, 661, 71))
@@ -121,9 +121,6 @@ class _UiMainWindow:
         font.setPointSize(20)
         self.label_multimodal_image_visualization.setFont(font)
         self.label_multimodal_image_visualization.setObjectName("label_multimodal_image_visualization")
-
-
-
 
         self.list_widget_multimodal_image_channels = QtWidgets.QListWidget(self.centralwidget)
         self.list_widget_multimodal_image_channels.setGeometry(QtCore.QRect(0, 160, 351, 711))
@@ -157,22 +154,8 @@ class _UiMainWindow:
         self._retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
 
-        self.actionCreate_new_Image.triggered.connect(
-            lambda: load_new_multimodal_image_from_input(self.data_container, [
-                ChannelInput(
-                    'resources/sample_images/ball/ball_hsv_B.png',
-                    [
-                        ('r', 8), ('g', 8), ('b', 8)
-                    ]
-                ),
 
-                ChannelInput(
-                    'resources/sample_images/ball/ball_AoLP.png',
-                    [
-                        ('a', 8), ('L', 8), ('P', 8)
-                    ]
-                ),
-            ]))
+        self.actionCreate_new_Image.triggered.connect(lambda: open_channel_input_dialog(self, self.data_container))
 
     def _retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
