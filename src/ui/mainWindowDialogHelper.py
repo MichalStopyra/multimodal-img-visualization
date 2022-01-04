@@ -1,6 +1,6 @@
 from src.data_container.dataContainer import DataContainer
-from src.ui.channel_input_dialog.channelInputDialog import UiChannelInputDialog
-from src.ui.choose_channel_dialog.uiChooseChannelOneStdDialog import UiChooseChannelOneStdDialog
+from src.ui.dialog.channelInputDialog import UiChannelInputDialog
+from src.ui.dialog.uiChooseChannelOneStdDialog import UiChooseChannelOneStdDialog
 
 
 def open_channel_input_dialog(main_window, data_container: DataContainer):
