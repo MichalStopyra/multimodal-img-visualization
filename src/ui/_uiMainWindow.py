@@ -1,8 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 
+from src.data_container.channel.dto.channelInput import ChannelInput
 from src.data_container.dataContainer import DataContainer
-from src.library.libraryApi import standarize_image_channels
+from src.library.libraryApi import standarize_image_channels, add_channels_to_multimodal_img
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
 from src.ui.mainWindowDialogHelper import *
 from src.ui.refresh_gui.refreshGui import refresh_gui
@@ -78,6 +79,8 @@ class _UiMainWindow:
         self.toolButton_decompose_single_channel_resolution.setGeometry(QtCore.QRect(40, 130, 431, 71))
         self.toolButton_decompose_single_channel_resolution.setObjectName(
             "toolButton_decompose_single_channel_resolution")
+        self.toolButton_decompose_single_channel_resolution.clicked.connect(
+            lambda: open_choose_channel_one_std_dialog(self.mainWindow, self.data_container))
 
         self.toolButton_reverse_decompose_single_channel_resolution = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_reverse_decompose_single_channel_resolution.setGeometry(QtCore.QRect(40, 230, 431, 71))
@@ -97,8 +100,6 @@ class _UiMainWindow:
         self.toolButton_decompose_whole_image.setText("DECOMPOSE WHOLE IMAGE \n"
                                                       " FROM CHOSEN CHANNELS")
         self.toolButton_decompose_whole_image.setObjectName("toolButton_decompose_whole_image")
-        self.toolButton_decompose_whole_image.clicked.connect(
-            lambda: open_choose_channel_one_std_dialog(self.mainWindow, self.data_container))
 
         self.toolButton_rvrs_decompose_whole_image = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_rvrs_decompose_whole_image.setGeometry(QtCore.QRect(40, 630, 661, 71))
@@ -156,6 +157,14 @@ class _UiMainWindow:
 
 
         self.actionCreate_new_Image.triggered.connect(lambda: open_channel_input_dialog(self, self.data_container))
+
+        add_channels_to_multimodal_img(self.data_container, [ChannelInput(
+            'resources/sample_images/ball/ball_hsv_B.png',
+            [
+                ('r', 8), ('g', 8), ('b', 8)
+            ]
+        )])
+
 
     def _retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

@@ -114,3 +114,4 @@ class UiChannelInputDialog():
                                        [ChannelInput(self.source[0], channel_names_and_max_bit_values)])
 
         self.hide()
+

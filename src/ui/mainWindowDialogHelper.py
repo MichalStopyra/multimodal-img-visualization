@@ -1,4 +1,3 @@
-from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.dataContainer import DataContainer
 from src.ui.channel_input_dialog.channelInputDialog import UiChannelInputDialog
 from src.ui.choose_channel_dialog.uiChooseChannelOneStdDialog import UiChooseChannelOneStdDialog
