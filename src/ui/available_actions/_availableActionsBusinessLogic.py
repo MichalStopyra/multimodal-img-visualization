@@ -51,7 +51,7 @@ def _find_channels_available_for_action(action_type: ActionTypeEnum,
         for channel in channels_data_map:
             if not (list(filter(lambda std_ch: std_ch.initial_channel_name == channel.name,
                                 standarized_channels_data_map))):
-                channels_available_for_action.append((channel.name, False))
+                channels_available_for_action.append((channel.name, True))
 
     elif action_type == ActionTypeEnum.DECOMPOSE_SINGLE_CHANNEL_RESOLUTION:
         for channel in channels_data_map:

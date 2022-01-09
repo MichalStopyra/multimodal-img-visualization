@@ -1,22 +1,19 @@
-import os
-
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QFileInfo
 from PyQt5.QtWidgets import QFileDialog
 
 from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelInput import ChannelInput
 from src.data_container.dataContainer import DataContainer
-from src.library.libraryApi import load_new_multimodal_image_from_input, add_channels_to_multimodal_img
+from src.library.libraryApi import add_channels_to_multimodal_img
+from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
 
 
-class UiChannelInputDialog():
+class UiChannelInputDialog(AbstractDialog):
 
     def __init__(self, data_container: DataContainer):
-        self.frameWidget = QtWidgets.QFrame()
+        super().__init__(data_container)
         self.setupUi()
 
-        self.data_container = data_container
         self.source = ""
         self.current_first_row_position = 0
 
@@ -71,12 +68,6 @@ class UiChannelInputDialog():
         self.toolButton_4.setText(_translate("self.frameWidget", "Remove "))
         self.toolButton_2.setText(_translate("self.frameWidget", "Submit"))
 
-    def show(self):
-        self.frameWidget.show()
-
-    def hide(self):
-        self.frameWidget.hide()
-
     def get_file_source(self):
         self.current_first_row_position = self.tableWidget_channelInput.rowCount()
 
@@ -114,4 +105,3 @@ class UiChannelInputDialog():
                                        [ChannelInput(self.source[0], channel_names_and_max_bit_values)])
 
         self.hide()
-

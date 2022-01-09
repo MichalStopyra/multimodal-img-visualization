@@ -1,12 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from src.data_container.dataContainer import DataContainer
+from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
 
 
-class UiQFrame_rvrs_decomposition():
+class UiChooseChannelRvrsDecomposition(AbstractDialog):
 
     def __init__(self, data_container: DataContainer):
-        self.frameWidget = QtWidgets.QFrame()
+        super().__init__()
         self.data_container = data_container
 
         self.setupUi()

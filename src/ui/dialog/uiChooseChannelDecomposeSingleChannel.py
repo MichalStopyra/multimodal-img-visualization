@@ -6,16 +6,19 @@ from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
 from src.library.libraryApi import decompose_channel_resolution_wrapper
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
+from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
 
 
-class UiChooseChannelOneStdDialog():
+class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
 
     def __init__(self, data_container: DataContainer):
-        self.frameWidget = QtWidgets.QFrame()
-        self.data_container = data_container
+        super().__init__(data_container)
         self.fast_ica_n_components = None
 
         self.setupUi()
+
+        self.set_channels_List()
+
 
     def setupUi(self):
         self.frameWidget.setObjectName("self.frameWidget")
@@ -31,7 +34,6 @@ class UiChooseChannelOneStdDialog():
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setRowCount(0)
-        self.set_channels_List()
 
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
@@ -73,11 +75,6 @@ class UiChooseChannelOneStdDialog():
         self.comboBox_decomposition_type.setItemText(2, _translate("QFrame_choose_channel_one_std", "NMF"))
         self.label.setText(_translate("QFrame_choose_channel_one_std", "FAST ICA n_components"))
 
-    def show(self):
-        self.frameWidget.show()
-
-    def hide(self):
-        self.frameWidget.hide()
 
     def set_channels_List(self):
         available_channels = AvailableActionsApi.find_channels_available_for_action(

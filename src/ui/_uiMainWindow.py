@@ -2,9 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 
 from src.data_container.channel.dto.channelInput import ChannelInput
-from src.data_container.dataContainer import DataContainer
-from src.library.libraryApi import standarize_image_channels, add_channels_to_multimodal_img
-from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
+from src.library.libraryApi import add_channels_to_multimodal_img
 from src.ui.mainWindowDialogHelper import *
 from src.ui.refresh_gui.refreshGui import refresh_gui
 
@@ -68,48 +66,57 @@ class _UiMainWindow:
         self.toolButton_standarize_channels = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_standarize_channels.setGeometry(QtCore.QRect(40, 30, 431, 71))
         self.toolButton_standarize_channels.setObjectName("toolButton_standarize_channels")
-        self.toolButton_standarize_channels.clicked.connect(lambda:
-                                                            standarize_image_channels(self.data_container, ["P"], {
-                                                                'r': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
-                                                                'g': StandarizationModeEnum.BIT_SIZE_MIN_MAX,
-                                                                'b': StandarizationModeEnum.BIT_SIZE_MIN_MAX
-                                                            }))
+        self.toolButton_standarize_channels.clicked.connect(
+            lambda: open_choose_channels_standarization(self.mainWindow, self.data_container))
 
         self.toolButton_decompose_single_channel_resolution = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_decompose_single_channel_resolution.setGeometry(QtCore.QRect(40, 130, 431, 71))
         self.toolButton_decompose_single_channel_resolution.setObjectName(
             "toolButton_decompose_single_channel_resolution")
         self.toolButton_decompose_single_channel_resolution.clicked.connect(
-            lambda: open_choose_channel_one_std_dialog(self.mainWindow, self.data_container))
+            lambda: open_choose_channel_decompose_single_channel(self.mainWindow, self.data_container))
+
 
         self.toolButton_reverse_decompose_single_channel_resolution = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_reverse_decompose_single_channel_resolution.setGeometry(QtCore.QRect(40, 230, 431, 71))
         self.toolButton_reverse_decompose_single_channel_resolution.setObjectName(
             "toolButton_reverse_decompose_single_channel_resolution")
+        self.toolButton_reverse_decompose_single_channel_resolution.clicked.connect(
+            lambda: open_choose_channel_rvrs_decomposition(self.mainWindow, self.data_container))
 
         self.toolButton_destandarize_channel_by_name = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_destandarize_channel_by_name.setGeometry(QtCore.QRect(40, 330, 431, 71))
         self.toolButton_destandarize_channel_by_name.setObjectName("toolButton_destandarize_channel_by_name")
+        self.toolButton_destandarize_channel_by_name.clicked.connect(
+            lambda: open_choose_channel_destandarization(self.mainWindow, self.data_container))
 
         self.toolButton_convert_channel = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_convert_channel.setGeometry(QtCore.QRect(40, 430, 431, 71))
         self.toolButton_convert_channel.setObjectName("toolButton_convert_channel")
+        # TODO
+        self.toolButton_convert_channel.clicked.connect(
+            lambda: open_choose_channel_decompose_single_channel(self.mainWindow, self.data_container))
 
         self.toolButton_decompose_whole_image = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_decompose_whole_image.setGeometry(QtCore.QRect(40, 540, 661, 71))
         self.toolButton_decompose_whole_image.setText("DECOMPOSE WHOLE IMAGE \n"
                                                       " FROM CHOSEN CHANNELS")
         self.toolButton_decompose_whole_image.setObjectName("toolButton_decompose_whole_image")
+        self.toolButton_decompose_whole_image.clicked.connect(
+            lambda: open_choose_channels_decompose_whole_img(self.mainWindow, self.data_container))
 
         self.toolButton_rvrs_decompose_whole_image = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_rvrs_decompose_whole_image.setGeometry(QtCore.QRect(40, 630, 661, 71))
         self.toolButton_rvrs_decompose_whole_image.setText("REVERSE DECOMPOSE WHOLE IMAGE")
         self.toolButton_rvrs_decompose_whole_image.setObjectName("toolButton_rvrs_decompose_whole_image")
+        # TODO
 
         self.toolButton_display_img = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_display_img.setGeometry(QtCore.QRect(730, 110, 381, 171))
         self.toolButton_display_img.setText("DISPLAY IMAGE")
         self.toolButton_display_img.setObjectName("toolButton_display_img")
+        self.toolButton_display_img.clicked.connect(
+            lambda: open_choose_channels_display_img(self.mainWindow, self.data_container))
 
         self.label_multimodal_image_visualization = QtWidgets.QLabel(self.centralwidget)
         self.label_multimodal_image_visualization.setGeometry(QtCore.QRect(680, 20, 461, 91))

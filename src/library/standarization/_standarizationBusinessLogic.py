@@ -116,7 +116,8 @@ def _destandarize_rvrs_decomposed_image_channels_basic(rvrs_dcmpsd_image_array: 
 def _is_channel_standarized(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]
                             ) -> bool:
     map_element_list = list(filter(
-        lambda channel: channel.initial_channel_name == initial_channel_name, std_channels_data_map))
+        lambda channel: channel.initial_channel_name == initial_channel_name
+                        or channel.standarized_channel_name == initial_channel_name, std_channels_data_map))
 
     return map_element_list is not None and len(map_element_list) != 0
 

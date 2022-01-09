@@ -1,12 +1,13 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src.data_container.dataContainer import DataContainer
+from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
 
 
-class UiQFrame_destandarization():
+class UiChooseChannelDestandarization(AbstractDialog):
     
     def __init__(self, data_container: DataContainer):
-        self.frameWidget = QtWidgets.QFrame()
+        super().__init__()
         self.data_container = data_container
 
         self.setupUi()
@@ -45,3 +46,4 @@ class UiQFrame_destandarization():
         item.setText(_translate("self.frameWidget", "Take ch after rvrs decomposition"))
         self.label_instruction.setText(_translate("self.frameWidget",
                                                   "Firstly check max bit size checkboxes and then select multiple channels"))
+
