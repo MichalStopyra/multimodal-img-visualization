@@ -6,6 +6,9 @@ from src.ui.dialog.uiChooseChannelDestandarization import UiChooseChannelDestand
 from src.ui.dialog.uiChooseChannelRvrsDecomposition import UiChooseChannelRvrsDecomposition
 from src.ui.dialog.uiChooseChannelsDecomposeWholeImg import UiChooseChannelsDecomposeWholeImg
 from src.ui.dialog.uiChooseChannelsDisplayImg import UiChooseChannelsDisplayImg
+from src.ui.dialog.uiChooseChannelsDisplayImgWholeImgDecomposition import \
+    UiChooseChannelsDisplayImgWholeImgDecomposition
+from src.ui.dialog.uiResultDialog import UiResultDialog
 
 
 def open_channel_input_dialog(main_window, data_container: DataContainer):
@@ -36,6 +39,12 @@ def open_choose_channels_decompose_whole_img(main_window, data_container: DataCo
 def open_choose_channels_display_img(main_window, data_container: DataContainer):
     main_window.choose_channels_display_img = UiChooseChannelsDisplayImg(data_container)
     main_window.choose_channels_display_img.show()
+
+
+def open_choose_channels_display_img_whole_img_decomposition(main_window, data_container: DataContainer):
+    main_window.choose_channels_display_img_whole_img_decomposition =\
+        UiChooseChannelsDisplayImgWholeImgDecomposition(data_container)
+    main_window.choose_channels_display_img_whole_img_decomposition.show()
 
 
 def open_choose_channels_standarization(main_window, data_container: DataContainer):

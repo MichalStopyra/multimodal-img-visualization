@@ -24,7 +24,7 @@ class _UiMainWindow:
         self.timer.start(1000)
 
     def show(self):
-        self.mainWindow.show()
+        self.mainWindow.showFullScreen()
 
     def _setup_ui_window(self):
         self.mainWindow.setGeometry(500, 500, 700, 700)
@@ -118,12 +118,22 @@ class _UiMainWindow:
         self.toolButton_display_img.clicked.connect(
             lambda: open_choose_channels_display_img(self.mainWindow, self.data_container))
 
+        self.toolButton_display_img_2 = QtWidgets.QToolButton(self.frame_buttons)
+        self.toolButton_display_img_2.setGeometry(QtCore.QRect(810, 570, 221, 101))
+        self.toolButton_display_img_2.setText("DISPLAY IMAGE AFTER \n"
+                                              "WHOLE IMG DECOMPOSITION")
+        self.toolButton_display_img_2.setObjectName("toolButton_display_img_2")
+        self.toolButton_display_img_2.clicked.connect(
+            lambda: open_choose_channels_display_img_whole_img_decomposition(self.mainWindow, self.data_container))
+
         self.label_multimodal_image_visualization = QtWidgets.QLabel(self.centralwidget)
         self.label_multimodal_image_visualization.setGeometry(QtCore.QRect(680, 20, 461, 91))
 
         self.toolButton_reset = QtWidgets.QToolButton(self.centralwidget)
         self.toolButton_reset.setGeometry(QtCore.QRect(1560, 10, 321, 81))
         self.toolButton_reset.setObjectName("toolButton_reset")
+        self.toolButton_reset.clicked.connect(lambda: self.reset_conversions())
+
 
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -159,9 +169,11 @@ class _UiMainWindow:
         self.menuFile.addAction(self.actionAdd_channels_to_Image)
         self.menubar.addAction(self.menuFile.menuAction())
 
+        self.draw_lines()
+
+
         self._retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
-
 
         self.actionCreate_new_Image.triggered.connect(lambda: open_channel_input_dialog(self, self.data_container))
 
@@ -194,3 +206,65 @@ class _UiMainWindow:
         self.actionOpen_File.setText(_translate("MainWindow", "Open File"))
         self.actionCreate_new_Image.setText(_translate("MainWindow", "Create new Image"))
         self.actionAdd_channels_to_Image.setText(_translate("MainWindow", "Add channels to Image"))
+
+    def reset_conversions(self):
+        self.data_container.reset_conversions()
+        self.listWidget_converted_channels.clear()
+
+    def draw_lines(self):
+        self.line = QtWidgets.QFrame(self.frame_buttons)
+        self.line.setGeometry(QtCore.QRect(470, 460, 211, 20))
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.line_2 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_2.setGeometry(QtCore.QRect(470, 350, 211, 20))
+        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
+        self.line_3 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_3.setGeometry(QtCore.QRect(470, 250, 211, 20))
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setObjectName("line_3")
+        self.line_4 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_4.setGeometry(QtCore.QRect(470, 160, 211, 20))
+        self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_4.setObjectName("line_4")
+        self.line_5 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_5.setGeometry(QtCore.QRect(470, 50, 211, 20))
+        self.line_5.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_5.setObjectName("line_5")
+        self.line_6 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_6.setGeometry(QtCore.QRect(680, 190, 51, 20))
+        self.line_6.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_6.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_6.setObjectName("line_6")
+        self.line_7 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_7.setGeometry(QtCore.QRect(670, 60, 20, 411))
+        self.line_7.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line_7.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_7.setObjectName("line_7")
+
+        self.line_8 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_8.setGeometry(QtCore.QRect(700, 570, 51, 16))
+        self.line_8.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_8.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_8.setObjectName("line_8")
+        self.line_9 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_9.setGeometry(QtCore.QRect(700, 660, 51, 16))
+        self.line_9.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_9.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_9.setObjectName("line_9")
+        self.line_10 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_10.setGeometry(QtCore.QRect(750, 610, 61, 20))
+        self.line_10.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_10.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_10.setObjectName("line_10")
+        self.line_11 = QtWidgets.QFrame(self.frame_buttons)
+        self.line_11.setGeometry(QtCore.QRect(740, 580, 16, 91))
+        self.line_11.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line_11.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_11.setObjectName("line_11")

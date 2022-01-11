@@ -70,6 +70,10 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("self.frameWidget", "Choose Standarized"))
 
+        header = self.tableWidget.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+
         self.comboBox_decomposition_type.setItemText(0, _translate("QFrame_choose_channel_one_std", "PCA"))
         self.comboBox_decomposition_type.setItemText(1, _translate("QFrame_choose_channel_one_std", "FAST_ICA"))
         self.comboBox_decomposition_type.setItemText(2, _translate("QFrame_choose_channel_one_std", "NMF"))

@@ -63,6 +63,11 @@ class UiChannelInputDialog(AbstractDialog):
         item.setText(_translate("self.frameWidget", "Channel Name"))
         item = self.tableWidget_channelInput.horizontalHeaderItem(2)
         item.setText(_translate("self.frameWidget", "Max Bit Size"))
+
+        header = self.tableWidget_channelInput.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+
         self.toolButton.setText(_translate("self.frameWidget", "Add channel"))
         self.toolButton_3.setText(_translate("self.frameWidget", "Edit"))
         self.toolButton_4.setText(_translate("self.frameWidget", "Remove "))

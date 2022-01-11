@@ -77,7 +77,7 @@ def _destandarize_channel(df: pd.DataFrame, initial_channel_name: str, after_rev
 
     multiplier_float = float(std_channel_data.standarization_multiplier)
 
-    std_channel_array = (np.round(std_channel_array * multiplier_float, 0) % multiplier_float) \
+    std_channel_array = (np.round(std_channel_array * multiplier_float, 0) % multiplier_float).astype(np.uint8) \
         .astype("str").astype(decimal.Decimal)
 
     destandarized_channel_df = pd.DataFrame(data=std_channel_array)

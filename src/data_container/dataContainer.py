@@ -40,3 +40,17 @@ class DataContainer:
 
     def print_image_df_head(self):
         print(self.get_image_df().head())
+
+    def reset_conversions(self):
+        for col in self.get_image_df().columns:
+            map_element_list = list(filter(lambda cdm: cdm.name == col, self.get_channels_data_map()))
+            if not map_element_list or len(map_element_list) != 1:
+                self.multimodal_image.image_df = self.get_image_df().drop(col, 1)
+
+        self.standarized_channels_data_map = []
+        self.destandarized_channels_data_map = []
+        self.decomposed_channels_data_map = []
+        self.rvrs_decomposed_channels_data_map = []
+        self.decomposed_image_data = None
+        self.decomposed_rvrs_dcmpsd_image_df = None
+
