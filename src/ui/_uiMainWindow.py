@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 
 from src.data_container.channel.dto.channelInput import ChannelInput
-from src.library.libraryApi import add_channels_to_multimodal_img
+from src.library.libraryApi import add_channels_to_multimodal_img, rvrs_decompose_image_channels
 from src.ui.mainWindowDialogHelper import *
 from src.ui.refresh_gui.refreshGui import refresh_gui
 
@@ -76,7 +76,6 @@ class _UiMainWindow:
         self.toolButton_decompose_single_channel_resolution.clicked.connect(
             lambda: open_choose_channel_decompose_single_channel(self.mainWindow, self.data_container))
 
-
         self.toolButton_reverse_decompose_single_channel_resolution = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_reverse_decompose_single_channel_resolution.setGeometry(QtCore.QRect(40, 230, 431, 71))
         self.toolButton_reverse_decompose_single_channel_resolution.setObjectName(
@@ -109,7 +108,8 @@ class _UiMainWindow:
         self.toolButton_rvrs_decompose_whole_image.setGeometry(QtCore.QRect(40, 630, 661, 71))
         self.toolButton_rvrs_decompose_whole_image.setText("REVERSE DECOMPOSE WHOLE IMAGE")
         self.toolButton_rvrs_decompose_whole_image.setObjectName("toolButton_rvrs_decompose_whole_image")
-        # TODO
+        self.toolButton_rvrs_decompose_whole_image.clicked.connect(
+            lambda: rvrs_decompose_image_channels(self.data_container))
 
         self.toolButton_display_img = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_display_img.setGeometry(QtCore.QRect(730, 110, 381, 171))
@@ -133,7 +133,6 @@ class _UiMainWindow:
         self.toolButton_reset.setGeometry(QtCore.QRect(1560, 10, 321, 81))
         self.toolButton_reset.setObjectName("toolButton_reset")
         self.toolButton_reset.clicked.connect(lambda: self.reset_conversions())
-
 
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -161,29 +160,24 @@ class _UiMainWindow:
         self.mainWindow.setStatusBar(self.statusbar)
         self.actionOpen_File = QtWidgets.QAction(self.mainWindow)
         self.actionOpen_File.setObjectName("actionOpen_File")
-        self.actionCreate_new_Image = QtWidgets.QAction(self.mainWindow)
-        self.actionCreate_new_Image.setObjectName("actionCreate_new_Image")
         self.actionAdd_channels_to_Image = QtWidgets.QAction(self.mainWindow)
-        self.actionAdd_channels_to_Image.setObjectName("actionAdd_channels_to_Image")
-        self.menuFile.addAction(self.actionCreate_new_Image)
+        self.actionAdd_channels_to_Image.setObjectName("actionCreate_new_Image")
         self.menuFile.addAction(self.actionAdd_channels_to_Image)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.actionAdd_channels_to_Image.triggered.connect(lambda: open_channel_input_dialog(self, self.data_container))
 
         self.draw_lines()
-
 
         self._retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
 
-        self.actionCreate_new_Image.triggered.connect(lambda: open_channel_input_dialog(self, self.data_container))
 
         add_channels_to_multimodal_img(self.data_container, [ChannelInput(
-            'resources/sample_images/ball/ball_hsv_B.png',
+            'resources/sample_images/ball/ball_0.png',
             [
                 ('r', 8), ('g', 8), ('b', 8)
             ]
         )])
-
 
     def _retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -204,7 +198,6 @@ class _UiMainWindow:
         self.toolButton_reset.setText(_translate("MainWindow", "RESET ALL CONVERSIONS"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionOpen_File.setText(_translate("MainWindow", "Open File"))
-        self.actionCreate_new_Image.setText(_translate("MainWindow", "Create new Image"))
         self.actionAdd_channels_to_Image.setText(_translate("MainWindow", "Add channels to Image"))
 
     def reset_conversions(self):

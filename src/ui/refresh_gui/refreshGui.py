@@ -15,7 +15,8 @@ def refresh_gui(appWindow):
                                 appWindow.toolButton_decompose_whole_image,
                                 appWindow.toolButton_rvrs_decompose_whole_image,
                                 appWindow.toolButton_display_img,
-                                appWindow.toolButton_reset)
+                                appWindow.toolButton_reset,
+                                appWindow.toolButton_display_img_2)
 
 
 def __set_channels_lists(data_container: DataContainer,
@@ -46,7 +47,8 @@ def __calculate_buttons_enabled(data_container: DataContainer,
                                 toolButton_decompose_whole_image: QtWidgets.QToolButton,
                                 toolButton_rvrs_decompose_whole_image: QtWidgets.QToolButton,
                                 toolButton_display_img: QtWidgets.QToolButton,
-                                toolButton_reset: QtWidgets.QToolButton
+                                toolButton_reset: QtWidgets.QToolButton,
+                                toolButton_display_img_2: QtWidgets.QToolButton
                                 ):
     toolButton_standarize_channels.setEnabled(data_container.multimodal_image is not None)
     toolButton_decompose_single_channel_resolution.setEnabled(data_container.multimodal_image is not None)
@@ -59,5 +61,6 @@ def __calculate_buttons_enabled(data_container: DataContainer,
     toolButton_decompose_whole_image.setEnabled(data_container.multimodal_image is not None)
     toolButton_rvrs_decompose_whole_image.setEnabled(data_container.decomposed_image_data is not None)
     toolButton_display_img.setEnabled(data_container.multimodal_image is not None)
+    toolButton_display_img_2.setEnabled(data_container.decomposed_image_data is not None)
     converted_df_channels = AvailableActionsApi.find_converted_df_channels(data_container)
     toolButton_reset.setEnabled(converted_df_channels is not None and len(converted_df_channels) > 0)

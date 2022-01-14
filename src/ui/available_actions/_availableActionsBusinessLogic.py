@@ -4,6 +4,8 @@ from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
+from src.library.properties.properties import \
+    DECOMPOSED_WHOLE_IMAGE_SHORT_NAME, RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
@@ -22,7 +24,10 @@ def _find_all_initial_multimodal_img_channels(channels_data_map: [ChannelData]) 
 def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChannelData],
                                 destandarized_channels_data_map: [DestandarizedChannelData],
                                 decomposed_channels_data_map: [DecomposedChannelData],
-                                rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData]) -> [str]:
+                                rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                decomposed_image_data: DecomposedImage,
+                                decomposed_rvrs_dcmpsd_image_df: pd.DataFrame
+                                ) -> [str]:
     channels = []
 
     if standarized_channels_data_map:
@@ -40,6 +45,12 @@ def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChann
     if rvrs_decomposed_channels_data_map:
         for channel in rvrs_decomposed_channels_data_map:
             channels.append(channel.rvrs_decomposed_channel_name)
+
+    if decomposed_image_data:
+        channels.append(DECOMPOSED_WHOLE_IMAGE_SHORT_NAME)
+
+    if decomposed_rvrs_dcmpsd_image_df is not None:
+        channels.append(RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME)
 
     return channels
 
@@ -131,13 +142,26 @@ def _find_channels_available_for_action(action_type: ActionTypeEnum,
             for channel in standarized_channels_data_map:
                 channels_available_for_action.append(channel.standarized_channel_name)
 
+            if len(channels_available_for_action) == 0:
+                channels_available_for_action.append('-')
+
+    elif action_type == ActionTypeEnum.DISPLAY_IMAGE_AFTER_WHOLE_IMG_DECOMPOSITION:
+        if not decomposed_image_data:
+            logger.debug("ERROR - No decomposed_image_data")
+            return ['-']
+
+        if visualization_channel_type == VisualizationChannelsEnum.HSV and not decomposed_image_data.image_standarized:
+            channels_available_for_action.append('-')
+        else:
+            channels_available_for_action = decomposed_image_data.decomposed_image_df.columns
+
+    elif action_type == ActionTypeEnum.DISPLAY_IMAGE_AFTER_WHOLE_IMG_RVRS_DECOMPOSITION:
+        if rvrs_decomposed_image_df is None:
+            logger.debug("ERROR - No rvrs decomposed_image_data")
+            return ['-']
+
+        for column in rvrs_decomposed_image_df.columns:
+            channels_available_for_action.append(str(column))
+
     return channels_available_for_action
 
-#
-# def _displaying_image_options(decomposed_image_data :DecomposedImage,
-#                               whole_rvrs_decomposed_image_exists: bool):
-#     options_available = []
-#     if decomposed_image_data:
-#
-#         options_available.append((DECOMPOSED_WHOLE_IMAGE_NAME_TEMPLATE,
-#                                               whole_rvrs_decomposed_image_exists))

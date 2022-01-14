@@ -1,3 +1,5 @@
+import decimal
+
 import pandas as pd
 
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
@@ -32,8 +34,11 @@ def _rvrs_decompose_image_channels(decomposed_image_data: DecomposedImage) -> pd
     rvrs_decomposed_img_array = decomposed_image_data.decomposition_object.inverse_transform(
         decomposed_image_data.decomposed_image_df)
 
-    return StandarizationApi.destandarize_decomposed_image_channels_basic(rvrs_decomposed_img_array,
+    if decomposed_image_data.image_standarized:
+        return StandarizationApi.destandarize_decomposed_image_channels_basic(rvrs_decomposed_img_array,
                                                                           decomposed_image_data.image_standarized)
+    else:
+        return pd.DataFrame(data=rvrs_decomposed_img_array.astype("str").astype(decimal.Decimal))
 
 
 def __get_decomposed_channel_data(decomposed_channels_data: [DecomposedChannelData], channel_name: str):

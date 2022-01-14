@@ -122,6 +122,9 @@ class UiChooseChannelsDisplayImg(AbstractDialog):
                 self.comboBox_ch_3.addItems(available_channels)
 
     def on_submit(self):
+        if self.comboBox_ch_1.currentText() == '-' or self.comboBox_ch_2.currentText() == '-' \
+                or self.comboBox_ch_3.currentText() == '-':
+            return
 
         chosen_visualization_type = VisualizationChannelsEnum[str(self.comboBox_visualization_type.currentText())]
 

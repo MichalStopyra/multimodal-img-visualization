@@ -33,7 +33,8 @@ def _decomposed_image_channels_df_to_image_save_file(decomposed_image_data: Deco
                                 * STD_MAX_PIXEL_VALUE, 0).astype(np.uint8)
 
     elif visualization_channels_type == VisualizationChannelsEnum.GRAY_SCALE:
-        result_array = np.reshape(decomposed_image_data.decomposed_image_df.iloc[:, component_numbers_as_channels[0]]
+        result_array = np.reshape(decomposed_image_data.decomposed_image_df
+                                  .iloc[:, component_numbers_as_channels[0] - 1]
                                   .to_numpy().astype(np.uint8), (output_width, output_height))
 
     elif visualization_channels_type == VisualizationChannelsEnum.RGB:

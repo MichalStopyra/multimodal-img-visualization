@@ -16,7 +16,8 @@ class AvailableActionsApi:
     def find_converted_df_channels(data_container: DataContainer):
         return _find_converted_df_channels(
             data_container.standarized_channels_data_map, data_container.destandarized_channels_data_map,
-            data_container.decomposed_channels_data_map, data_container.rvrs_decomposed_channels_data_map)
+            data_container.decomposed_channels_data_map, data_container.rvrs_decomposed_channels_data_map,
+            data_container.decomposed_image_data, data_container.decomposed_rvrs_dcmpsd_image_df)
 
     @staticmethod
     def find_channels_available_for_action(data_container: DataContainer,
