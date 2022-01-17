@@ -25,6 +25,7 @@ def _standarize_image_channels(df: pd.DataFrame, channels_to_exclude: [str],
 
     for column in df.columns:
 
+        # TODO dodac sprawdzanie innych map poza std
         if column in channels_to_exclude or _is_channel_standarized(column, standarized_channels_data_map):
             continue
 
