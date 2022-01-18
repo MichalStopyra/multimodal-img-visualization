@@ -51,12 +51,12 @@ def standarize_image_channels(data_container: DataContainer,
     """
         standarize_image_channels method standarizes multimodal image channels
 
-        1. Adding a channel to channels_to_exclude array excludes chosen channels from global standarization.
-        2. standarization_modes is a key -> value map where channel names are
+        1. Adding a channel to channels_to_exclude array excludes chosen channels from a global standarization.
+        2. standarization_modes is a key -> value dictionary where channel names are
             the keys and standarization_modes are the values.
         3. Possible standarization_modes:
-            - max & min values are the actual max & min pixel values of a channel.
-            - max value is the max bit size of the channel and min value is 0.
+            a) CHANNEL_VALUES_MIN_MAX - max & min values are the actual max & min pixel values of a channel.
+            b) BIT_SIZE_MIN_MAX - max value is the max bit size of the channel and min value is 0.
     """
 
     data_container.multimodal_image.image_df, data_container.standarized_channels_data_map = \
