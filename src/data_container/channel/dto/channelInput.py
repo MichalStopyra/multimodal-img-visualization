@@ -8,8 +8,12 @@ class ChannelInputInterface:
 
     def __init__(self, channels_names_and_bit_sizes_tuple: [(str, int)]):
         self.channels_names_and_bit_sizes = []
-        for tpl in channels_names_and_bit_sizes_tuple:
-            self.channels_names_and_bit_sizes.append(ChannelData(tpl[0], tpl[1]))
+        if isinstance(channels_names_and_bit_sizes_tuple, list):
+            for tpl in channels_names_and_bit_sizes_tuple:
+                self.channels_names_and_bit_sizes.append(ChannelData(tpl[0], tpl[1]))
+        else:
+            self.channels_names_and_bit_sizes.append(ChannelData(
+                channels_names_and_bit_sizes_tuple[0], channels_names_and_bit_sizes_tuple[1]))
 
 
 class ChannelInput(ChannelInputInterface):

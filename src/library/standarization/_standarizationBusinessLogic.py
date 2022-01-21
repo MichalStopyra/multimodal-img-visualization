@@ -25,6 +25,7 @@ def _standarize_image_channels(df: pd.DataFrame, channels_to_exclude: [str],
 
     for column in df.columns:
 
+        # TODO dodac sprawdzanie innych map poza std
         if column in channels_to_exclude or _is_channel_standarized(column, standarized_channels_data_map):
             continue
 
@@ -77,7 +78,7 @@ def _destandarize_channel(df: pd.DataFrame, initial_channel_name: str, after_rev
 
     multiplier_float = float(std_channel_data.standarization_multiplier)
 
-    std_channel_array = (np.round(std_channel_array * multiplier_float, 0) % multiplier_float) \
+    std_channel_array = (np.round(std_channel_array * multiplier_float, 0) % multiplier_float).astype(np.uint8) \
         .astype("str").astype(decimal.Decimal)
 
     destandarized_channel_df = pd.DataFrame(data=std_channel_array)
@@ -116,7 +117,8 @@ def _destandarize_rvrs_decomposed_image_channels_basic(rvrs_dcmpsd_image_array: 
 def _is_channel_standarized(initial_channel_name: str, std_channels_data_map: [StandarizedChannelData]
                             ) -> bool:
     map_element_list = list(filter(
-        lambda channel: channel.initial_channel_name == initial_channel_name, std_channels_data_map))
+        lambda channel: channel.initial_channel_name == initial_channel_name
+                        or channel.standarized_channel_name == initial_channel_name, std_channels_data_map))
 
     return map_element_list is not None and len(map_element_list) != 0
 

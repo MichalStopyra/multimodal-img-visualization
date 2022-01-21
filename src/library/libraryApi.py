@@ -19,8 +19,8 @@ from src.library.visualization.visualizationApi import VisualizationApi
 # ------------------------- MAIN LIBRARY API METHODS--------------------------------------
 
 
-def load_multimodal_image_from_input(data_container: DataContainer,
-                                     channels_inputs: [ChannelInputInterface]):
+def load_new_multimodal_image_from_input(data_container: DataContainer,
+                                         channels_inputs: [ChannelInputInterface]):
     """
           load_multimodal_image_from_input loads multimodal image into data_container
           It is possible to load it from a group of files containing different channels data
@@ -30,12 +30,33 @@ def load_multimodal_image_from_input(data_container: DataContainer,
     data_container.load_multimodal_image_from_input(channels_inputs)
 
 
+def add_channels_to_multimodal_img(data_container: DataContainer,
+                                   channels_inputs: [ChannelInputInterface]):
+    """
+    add_channels_to_multimodal_img provides a functionality to add a new channel (or multimple channels simultaneously)
+        to a multimodal image. When the image has not been created yet, it generates one and adds chosen channels.
+
+        1. channel_inputs contain following information:
+            - image channel path : str
+            - channel name : str
+            - a max bit size of the channel : int
+    """
+
+    data_container.add_channels_to_multimodal_img(channels_inputs)
+
+
 def standarize_image_channels(data_container: DataContainer,
                               channels_to_exclude: [str],
                               standarization_modes: Dict[str, StandarizationModeEnum] = None):
     """
-        standarize_image_channels standarizes multimodal image channels
-        It is possible to exclude some channels from standarization, adding their names as channels_to_exclude array arg
+        standarize_image_channels method standarizes multimodal image channels
+
+        1. Adding a channel to channels_to_exclude array excludes chosen channels from a global standarization.
+        2. standarization_modes is a key -> value dictionary where channel names are
+            the keys and standarization_modes are the values.
+        3. Possible standarization_modes:
+            a) CHANNEL_VALUES_MIN_MAX - max & min values are the actual max & min pixel values of a channel.
+            b) BIT_SIZE_MIN_MAX - max value is the max bit size of the channel and min value is 0.
     """
 
     data_container.multimodal_image.image_df, data_container.standarized_channels_data_map = \
@@ -46,9 +67,9 @@ def standarize_image_channels(data_container: DataContainer,
 
 
 def destandarize_channel_by_name(data_container: DataContainer, initial_channel_name: str,
-                                 after_reverse_decomposition: bool, ):
+                                 after_reverse_decomposition: bool):
     """
-        destandarize_channel_by_name destandarizes multimodal image channels according to the way it was standarized
+        destandarize_channel_by_name method destandarizes multimodal image channels according to the way it was standarized
     """
 
     data_container.multimodal_image.image_df, data_container.destandarized_channels_data_map = \

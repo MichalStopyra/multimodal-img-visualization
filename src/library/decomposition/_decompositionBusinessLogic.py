@@ -143,7 +143,7 @@ def __decompose_image_channels_pca(img_to_decompose_df: pd.DataFrame) -> (pd.Dat
     pca = PCA(svd_solver='full', n_components=PCA_VARIATION_MIN_VALUE)
     principal_components = pca.fit_transform(img_to_decompose_df)
     principal_df = pd.DataFrame(data=principal_components)
-    principal_df.columns = [f'pca{i}' for i in range(1, 1 + principal_df.shape[1])]
+    principal_df.columns = [f'{i}' for i in range(1, 1 + principal_df.shape[1])]
     return principal_df, pca
 
 
@@ -152,7 +152,7 @@ def __decompose_image_channels_wrapper_ica(img_to_decompose_df: pd.DataFrame, fa
     ica = FastICA(n_components=fast_ica_n_components)
     independent_components = ica.fit_transform(img_to_decompose_df)
     independent_components_df = pd.DataFrame(data=independent_components)
-    independent_components_df.columns = [f'ica{i}' for i in range(1, 1 + independent_components_df.shape[1])]
+    independent_components_df.columns = [f'{i}' for i in range(1, 1 + independent_components_df.shape[1])]
     return independent_components_df, ica
 
 
@@ -160,7 +160,7 @@ def __decompose_image_channels_nmf(img_to_decompose_df: pd.DataFrame, n_componen
     nmf = NMF(n_components=n_components)
     nmf_components = nmf.fit_transform(img_to_decompose_df)
     nmf_df = pd.DataFrame(data=nmf_components)
-    nmf_df.columns = [f'nmf{i}' for i in range(1, 1 + nmf_df.shape[1])]
+    nmf_df.columns = [f'{i}' for i in range(1, 1 + nmf_df.shape[1])]
     return nmf_df, nmf
 
 

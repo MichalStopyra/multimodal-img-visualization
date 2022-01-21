@@ -11,6 +11,7 @@ class UiApplication:
         app = QApplication(sys.argv)
         win = _UiMainWindow()
 
+
         # display
-        win._show()
+        win.show()
         sys.exit(app.exec_())

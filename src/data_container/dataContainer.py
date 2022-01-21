@@ -20,12 +20,11 @@ class DataContainer:
         self.decomposed_image_data = None  # type DecomposedImage
         self.decomposed_rvrs_dcmpsd_image_df = None
 
-        # gui fields
-        initial_channel_names = []
-        available_channel_names = []
-
     def get_channels_data_map(self) -> [ChannelData]:
-        return self.multimodal_image.channels_data_map
+        if self.multimodal_image:
+            return self.multimodal_image.channels_data_map
+        else:
+            return None
 
     def get_image_df(self) -> pd.DataFrame:
         return self.multimodal_image.image_df
@@ -33,5 +32,25 @@ class DataContainer:
     def load_multimodal_image_from_input(self, channels_inputs: [ChannelInputInterface]):
         self.multimodal_image = MultimodalImage(channels_inputs)
 
+    def add_channels_to_multimodal_img(self, channels_inputs: [ChannelInputInterface]):
+        if self.multimodal_image:
+            self.multimodal_image.add_channels_to_multimodal_img(channels_inputs)
+        else:
+            self.load_multimodal_image_from_input(channels_inputs)
+
     def print_image_df_head(self):
         print(self.get_image_df().head())
+
+    def reset_conversions(self):
+        for col in self.get_image_df().columns:
+            map_element_list = list(filter(lambda cdm: cdm.name == col, self.get_channels_data_map()))
+            if not map_element_list or len(map_element_list) != 1:
+                self.multimodal_image.image_df = self.get_image_df().drop(col, 1)
+
+        self.standarized_channels_data_map = []
+        self.destandarized_channels_data_map = []
+        self.decomposed_channels_data_map = []
+        self.rvrs_decomposed_channels_data_map = []
+        self.decomposed_image_data = None
+        self.decomposed_rvrs_dcmpsd_image_df = None
+
