@@ -16,6 +16,8 @@ class UiChannelInputDialog(AbstractDialog):
 
         self.source = []
         self.current_first_row_position = 0
+        self.three_channels_from_img_source = False
+        self.last_ch_indexes = []
 
     def setupUi(self):
         self.frameWidget.setObjectName("self.frameWidget")
@@ -37,6 +39,18 @@ class UiChannelInputDialog(AbstractDialog):
         self.toolButton.setGeometry(QtCore.QRect(510, 20, 101, 111))
         self.toolButton.setObjectName("toolButton_add_new_channel")
         self.toolButton.clicked.connect(lambda: self.get_file_source())
+
+        self.checkBox_3_channels_from_img = QtWidgets.QCheckBox(self.frameWidget)
+        self.checkBox_3_channels_from_img.setGeometry(QtCore.QRect(550, 105, 101, 111))
+        self.checkBox_3_channels_from_img.setText("")
+        self.checkBox_3_channels_from_img.setObjectName("checkBox_3_channels_from_img")
+        self.checkBox_3_channels_from_img.stateChanged.connect(lambda:
+                                                               self.on_checkBox_3_channels_from_img())
+
+        self.label_3_channels_from_img = QtWidgets.QLabel(self.frameWidget)
+        self.label_3_channels_from_img.setGeometry(QtCore.QRect(505, 165, 111, 71))
+        self.label_3_channels_from_img.setWordWrap(True)
+        self.label_3_channels_from_img.setObjectName("label_3_channels_from_img")
 
         self.toolButton_2 = QtWidgets.QToolButton(self.frameWidget)
         self.toolButton_2.setGeometry(QtCore.QRect(510, 310, 101, 81))
@@ -63,28 +77,37 @@ class UiChannelInputDialog(AbstractDialog):
         self.toolButton.setText(_translate("self.frameWidget", "Add channel"))
         self.toolButton_2.setText(_translate("self.frameWidget", "Submit"))
 
+        self.label_3_channels_from_img.setText(_translate("self.frameWidget", "3 channels from one RGB source"))
+
     def get_file_source(self):
         self.current_first_row_position = self.tableWidget_channelInput.rowCount()
 
         self.tableWidget_channelInput.insertRow(self.current_first_row_position)
-        self.tableWidget_channelInput.insertRow(self.current_first_row_position + 1)
-        self.tableWidget_channelInput.insertRow(self.current_first_row_position + 2)
 
         self.source.append(QFileDialog.getOpenFileName(self.frameWidget, "Open File", "",
-                                                  options=QtWidgets.QFileDialog.DontUseNativeDialog)[0])
+                                                       options=QtWidgets.QFileDialog.DontUseNativeDialog)[0])
         current_source_idx = len(self.source) - 1
 
         self.tableWidget_channelInput.setItem(self.current_first_row_position,
                                               0, QtWidgets.QTableWidgetItem(self.source[current_source_idx]))
-        self.tableWidget_channelInput.setItem(self.current_first_row_position + 1,
-                                              0, QtWidgets.QTableWidgetItem(self.source[current_source_idx]))
-        self.tableWidget_channelInput.setItem(self.current_first_row_position + 2,
-                                              0, QtWidgets.QTableWidgetItem(self.source[current_source_idx]))
+
+        if self.three_channels_from_img_source:
+            self.tableWidget_channelInput.insertRow(self.current_first_row_position + 1)
+            self.tableWidget_channelInput.insertRow(self.current_first_row_position + 2)
+
+            self.tableWidget_channelInput.setItem(self.current_first_row_position + 1,
+                                                  0, QtWidgets.QTableWidgetItem(self.source[current_source_idx]))
+            self.tableWidget_channelInput.setItem(self.current_first_row_position + 2,
+                                                  0, QtWidgets.QTableWidgetItem(self.source[current_source_idx]))
+
+            self.last_ch_indexes.append(self.current_first_row_position + 2)
+        else:
+            self.last_ch_indexes.append(self.current_first_row_position)
 
     def on_submit(self):
         channel_names_and_max_bit_values = []
         source_idx = 0
-        for i in range(self.current_first_row_position + 3):
+        for i in range(self.tableWidget_channelInput.rowCount()):
             if not self.tableWidget_channelInput.item(i, 1) or not self.tableWidget_channelInput.item(i, 2):
                 print("WARNING - set all necessary values!")
                 return
@@ -98,10 +121,14 @@ class UiChannelInputDialog(AbstractDialog):
 
             channel_names_and_max_bit_values.append((channel_name, channel_max_bit_size))
 
-            if (i + 1) % 3 == 0:
+            if i in self.last_ch_indexes:
                 add_channels_to_multimodal_img(self.data_container,
-                                       [ChannelInput(self.source[source_idx], channel_names_and_max_bit_values)])
+                                               [ChannelInput(self.source[source_idx],
+                                                             channel_names_and_max_bit_values)])
                 channel_names_and_max_bit_values = []
                 source_idx += 1
 
         self.hide()
+
+    def on_checkBox_3_channels_from_img(self):
+        self.three_channels_from_img_source = self.checkBox_3_channels_from_img.isChecked()

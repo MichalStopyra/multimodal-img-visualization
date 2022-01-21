@@ -24,7 +24,12 @@ class MultimodalImage:
         ready_channels = []
         for channel in channels_inputs:
             if isinstance(channel, ChannelInput):
-                input_mat = cv2.cvtColor(cv2.imread(channel.channel_image_path), cv2.COLOR_BGR2RGB)
+                if len(channel.channels_names_and_bit_sizes) == 1:
+                    input_mat = cv2.imread(channel.channel_image_path, cv2.IMREAD_GRAYSCALE)
+                elif len(channel.channels_names_and_bit_sizes) == 3:
+                    input_mat = cv2.cvtColor(cv2.imread(channel.channel_image_path), cv2.COLOR_BGR2RGB)
+                else:
+                    raise Exception("ERROR - Wrong amount of channel names and bit sizes!")
             elif isinstance(channel, ChannelInputMock):
                 # TODO: mock pixel values
                 input_mat = channel.pixel_values
@@ -44,9 +49,10 @@ class MultimodalImage:
 
         first_channels = channels.pop(0)
         channel_names_and_bit_sizes = first_channels.channels_names_and_bit_sizes
-        channel_matrix = first_channels.image.reshape(-1, first_channels.image.shape[2])
+        channel_matrix = first_channels.image.reshape(-1, len(channel_names_and_bit_sizes))
         for channel in channels:
-            channel_matrix = np.append(channel_matrix, channel.image.reshape(-1, channel.image.shape[2]), axis=1)
+            channel_matrix = np.append(channel_matrix, channel.image
+                                       .reshape(-1, len(channel.channels_names_and_bit_sizes)), axis=1)
 
             for name_and_bit_size in channel.channels_names_and_bit_sizes:
                 channel_names_and_bit_sizes.append(name_and_bit_size)

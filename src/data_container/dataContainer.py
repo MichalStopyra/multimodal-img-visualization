@@ -16,6 +16,8 @@ class DataContainer:
         self.standarized_channels_data_map = []
         self.destandarized_channels_data_map = []
 
+        self.converted_channels_data_map = []
+
         # Whole image decomposition (decreasing the amount of channels)
         self.decomposed_image_data = None  # type DecomposedImage
         self.decomposed_rvrs_dcmpsd_image_df = None

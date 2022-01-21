@@ -2,6 +2,7 @@ import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
+from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.properties.properties import \
@@ -25,6 +26,7 @@ def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChann
                                 destandarized_channels_data_map: [DestandarizedChannelData],
                                 decomposed_channels_data_map: [DecomposedChannelData],
                                 rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                converted_channels_data_map: [ConvertedChannelData],
                                 decomposed_image_data: DecomposedImage,
                                 decomposed_rvrs_dcmpsd_image_df: pd.DataFrame
                                 ) -> [str]:
@@ -45,6 +47,10 @@ def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChann
     if rvrs_decomposed_channels_data_map:
         for channel in rvrs_decomposed_channels_data_map:
             channels.append(channel.rvrs_decomposed_channel_name)
+
+    if converted_channels_data_map:
+        for channel in converted_channels_data_map:
+            channels.append(channel.converted_channel_name)
 
     if decomposed_image_data:
         channels.append(DECOMPOSED_WHOLE_IMAGE_SHORT_NAME)

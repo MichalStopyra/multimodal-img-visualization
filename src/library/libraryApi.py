@@ -5,6 +5,8 @@ import pandas as pd
 
 from src.data_container.channel.dto.channelInput import ChannelInputInterface
 from src.data_container.dataContainer import DataContainer
+from src.library.conversion.conversionApi import ConversionApi
+from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
 from src.library.decomposition.decompositionApi import DecompositionApi
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
@@ -184,11 +186,18 @@ def rvrs_decompose_image_channels(data_container: DataContainer):
         data_container.decomposed_image_data)
 
 
-def reverse_decompose_channel(data_container: DataContainer, channel_name: str
-                              ) -> (pd.DataFrame, [ReverseDecomposedChannelData]):
+def reverse_decompose_channel(data_container: DataContainer, channel_name: str):
     data_container.multimodal_image.image_df, data_container.rvrs_decomposed_channels_data_map = \
         DecompositionApi.reverse_decompose_channel(data_container.get_image_df(), channel_name,
                                                    data_container.decomposed_channels_data_map,
                                                    data_container.rvrs_decomposed_channels_data_map)
+
+
+
+def convert_channel(data_container: DataContainer, channel_name: str, conversion_type: ConversionTypeEnum):
+    data_container.multimodal_image.image_df, data_container.converted_channels_data_map = \
+        ConversionApi.convert_channel(data_container.get_image_df(), data_container.get_channels_data_map(),
+                                      channel_name, conversion_type, data_container.converted_channels_data_map)
+
 
 # -----------------------------------------------------------------------------
