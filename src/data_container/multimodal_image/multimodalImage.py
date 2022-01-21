@@ -71,6 +71,5 @@ class MultimodalImage:
         invalid_size_channels = [channel for channel in channels
                                  if channel.image.shape[0] != channels[0].image.shape[0]
                                  or channel.image.shape[1] != channels[0].image.shape[1]]
-        # TODO: handle different resolutions
         if invalid_size_channels:
             raise Exception("channel images have different resolution")
