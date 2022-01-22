@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src.data_container.dataContainer import DataContainer
-from src.library.libraryApi import multimodal_image_df_to_image_save_file
+from src.library.libraryApi import multimodal_image_df_to_result_image
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
@@ -128,12 +128,12 @@ class UiChooseChannelsDisplayImg(AbstractDialog):
 
         chosen_visualization_type = VisualizationChannelsEnum[str(self.comboBox_visualization_type.currentText())]
 
-        multimodal_image_df_to_image_save_file(self.data_container, OUTPUT_IMAGE_NAME_RESULT,
-                                               OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT,
-                                               OUTPUT_IMAGE_FORMAT, chosen_visualization_type,
-                                               self.comboBox_ch_1.currentText(),
-                                               self.comboBox_ch_2.currentText(),
-                                               self.comboBox_ch_3.currentText())
+        multimodal_image_df_to_result_image(self.data_container, OUTPUT_IMAGE_NAME_RESULT,
+                                            OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT,
+                                            OUTPUT_IMAGE_FORMAT, chosen_visualization_type,
+                                            self.comboBox_ch_1.currentText(),
+                                            self.comboBox_ch_2.currentText(),
+                                            self.comboBox_ch_3.currentText())
 
         self.hide()
         self.open_result_dialog()

@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src.data_container.dataContainer import DataContainer
-from src.library.libraryApi import reverse_decompose_channel
+from src.library.libraryApi import reverse_decompose_single_channel
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
@@ -69,6 +69,6 @@ class UiChooseChannelRvrsDecomposition(AbstractDialog):
 
         channel_name = str(self.tableWidget_channels.item(current_cell_row, 0).text())
 
-        reverse_decompose_channel(self.data_container, channel_name)
+        reverse_decompose_single_channel(self.data_container, channel_name)
 
         self.hide()

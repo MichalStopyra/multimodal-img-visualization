@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 
 from src.data_container.channel.dto.channelInput import ChannelInput
-from src.library.libraryApi import add_channels_to_multimodal_img, rvrs_decompose_image_channels
+from src.library.libraryApi import add_channels_to_multimodal_img, rvrs_decompose_whole_image_channels
 from src.ui.mainWindowDialogHelper import *
 from src.ui.refresh_gui.refreshGui import refresh_gui
 
@@ -108,7 +108,7 @@ class _UiMainWindow:
         self.toolButton_rvrs_decompose_whole_image.setText("REVERSE DECOMPOSE WHOLE IMAGE")
         self.toolButton_rvrs_decompose_whole_image.setObjectName("toolButton_rvrs_decompose_whole_image")
         self.toolButton_rvrs_decompose_whole_image.clicked.connect(
-            lambda: rvrs_decompose_image_channels(self.data_container))
+            lambda: rvrs_decompose_whole_image_channels(self.data_container))
 
         self.toolButton_display_img = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_display_img.setGeometry(QtCore.QRect(730, 110, 381, 171))

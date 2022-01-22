@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 
 from src.data_container.dataContainer import DataContainer
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
-from src.library.libraryApi import decompose_channel_resolution_wrapper
+from src.library.libraryApi import decompose_single_channel
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
@@ -106,8 +106,8 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
 
         chosen_decomposition_type = DecompositionEnum[str(self.comboBox_decomposition_type.currentText())]
 
-        decompose_channel_resolution_wrapper(self.data_container, channel_name, chosen_decomposition_type,
-                                             take_std, self.fast_ica_n_components)
+        decompose_single_channel(self.data_container, channel_name, chosen_decomposition_type,
+                                 take_std, self.fast_ica_n_components)
 
         self.hide()
 

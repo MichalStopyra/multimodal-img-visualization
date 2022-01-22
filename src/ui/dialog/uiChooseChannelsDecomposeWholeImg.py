@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 
 from src.data_container.dataContainer import DataContainer
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
-from src.library.libraryApi import decompose_image_channels_wrapper
+from src.library.libraryApi import decompose_whole_image_channels
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
@@ -114,8 +114,8 @@ class UiChooseChannelsDecomposeWholeImg(AbstractDialog):
 
         chosen_decomposition_type = DecompositionEnum[str(self.comboBox_decomposition_type.currentText())]
 
-        decompose_image_channels_wrapper(self.data_container, chosen_decomposition_type,
-                                         channel_names_and_take_std_tuple)
+        decompose_whole_image_channels(self.data_container, chosen_decomposition_type,
+                                       channel_names_and_take_std_tuple)
 
         self.hide()
 
