@@ -1,10 +1,13 @@
+import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 
-from src.data_container.channel.dto.channelInput import ChannelInput
+from src.data_container.channel.channelApi import ChannelApi
+from src.data_container.channel.dto.channelInput import ChannelInput, ChannelInputFromPixelArray
 from src.library.libraryApi import add_channels_to_multimodal_img, rvrs_decompose_image_channels
 from src.ui.mainWindowDialogHelper import *
 from src.ui.refresh_gui.refreshGui import refresh_gui
+from src.utils.utils import pixel_values_array_from_csv
 
 
 class _UiMainWindow:
@@ -169,7 +172,6 @@ class _UiMainWindow:
 
         self._retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
-
 
         add_channels_to_multimodal_img(self.data_container, [ChannelInput(
             'resources/sample_images/dragon_1.png',

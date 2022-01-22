@@ -1,5 +1,7 @@
 from abc import ABCMeta
 
+import numpy as np
+
 from src.data_container.channel.dto.channelData import ChannelData
 
 
@@ -23,7 +25,7 @@ class ChannelInput(ChannelInputInterface):
         self.channel_image_path = channel_image_path
 
 
-class ChannelInputMock(ChannelInputInterface):
-    def __init__(self, channel_name: str, bit_size: int, pixel_values: [float]):
+class ChannelInputFromPixelArray(ChannelInputInterface):
+    def __init__(self, channel_name: str, bit_size: int, pixel_values: [[np.uint8]]):
         super().__init__([(channel_name, bit_size)])
         self.pixel_values = pixel_values

@@ -46,7 +46,8 @@ def _df_to_image_and_save(df: pd.DataFrame, output_name: str, output_width: int,
 
     elif visualization_channels_type == VisualizationChannelsEnum.GRAY_SCALE:
         _validate_gray_scale_channels(channel_name_1, channel_name_2, channel_name_3, decomposed_channels_data_map,
-                                      rvrs_decomposed_channels_data_map, std_channels_data_map)
+                                      rvrs_decomposed_channels_data_map, std_channels_data_map,
+                                      converted_channels_data_map)
 
         result_array = np.reshape(df[channel_name_1].to_numpy().astype(np.uint8), (output_width, output_height))
 

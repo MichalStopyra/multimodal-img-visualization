@@ -30,14 +30,15 @@ def _validate_number_of_channels_for_decomposed_image_channels(visualization_cha
 
 def _validate_gray_scale_channels(channel_name_1, channel_name_2, channel_name_3,
                                   decomposed_channels_data_map: [DecomposedChannelData],
-                                  rvrs_decomposed_channels_data_map,
-                                  std_channels_data_map):
+                                  rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                  std_channels_data_map: [StandarizedChannelData],
+                                  converted_channels_data_map: [ConvertedChannelData]):
     if not channel_name_1:
         raise Exception("ERROR: In order to produce gray scale image, channel_1 needs to be specified!")
     if channel_name_2 or channel_name_3:
         print("WARNING: Gray scale image chosen - channels 2 and 3 will be omitted")
     if __is_given_channel_of_standarized_type(channel_name_1, std_channels_data_map, decomposed_channels_data_map,
-                                              rvrs_decomposed_channels_data_map):
+                                              rvrs_decomposed_channels_data_map, converted_channels_data_map):
         print("WARNING: Gray scale image chosen - provided standarized channel! Output will not make any sense!")
 
 

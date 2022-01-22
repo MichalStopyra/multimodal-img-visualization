@@ -1,3 +1,4 @@
+import csv
 import decimal
 
 import cv2
@@ -5,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
-from src.data_container.channel.dto.channelInput import ChannelInputInterface, ChannelInput, ChannelInputMock
+from src.data_container.channel.dto.channelInput import ChannelInputInterface, ChannelInput, ChannelInputFromPixelArray
 from src.data_container.channel.dto.readyChannel import ReadyChannel
 
 
@@ -26,12 +27,13 @@ class MultimodalImage:
             if isinstance(channel, ChannelInput):
                 if len(channel.channels_names_and_bit_sizes) == 1:
                     input_mat = cv2.imread(channel.channel_image_path, cv2.IMREAD_GRAYSCALE)
+
                 elif len(channel.channels_names_and_bit_sizes) == 3:
                     input_mat = cv2.cvtColor(cv2.imread(channel.channel_image_path), cv2.COLOR_BGR2RGB)
+
                 else:
                     raise Exception("ERROR - Wrong amount of channel names and bit sizes!")
-            elif isinstance(channel, ChannelInputMock):
-                # TODO: mock pixel values
+            elif isinstance(channel, ChannelInputFromPixelArray):
                 input_mat = channel.pixel_values
             else:
                 raise Exception("Channel input is of wrong type")
