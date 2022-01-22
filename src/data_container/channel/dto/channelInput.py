@@ -26,6 +26,6 @@ class ChannelInput(ChannelInputInterface):
 
 
 class ChannelInputFromPixelArray(ChannelInputInterface):
-    def __init__(self, channel_name: str, bit_size: int, pixel_values: [[np.uint8]]):
+    def __init__(self, channel_name: str, bit_size: int, pixel_values: np.ndarray):
         super().__init__([(channel_name, bit_size)])
         self.pixel_values = pixel_values

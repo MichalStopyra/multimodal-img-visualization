@@ -25,10 +25,22 @@ def add_channels_to_multimodal_img(data_container: DataContainer,
     add_channels_to_multimodal_img provides a functionality to add a new channel (or multimple channels simultaneously)
         to a multimodal image. When the image has not been created yet, it generates one and adds chosen channels.
 
-        1. channel_inputs contain following information:
+        1. channel_inputs should be either instances of ChannelInput or ChannelInputFromPixelArray.
+        2. channel_inputs (ChannelInput instance) contain following information:
             - image channel path : str
             - channel name : str
             - a max bit size of the channel : int
+        3. channel_inputs (ChannelInputFromPixelArray) is used when pixel values are given as an argument,
+             e.g. they are read from a csv file
+            they contain following information:
+            - channel name : str
+            - a max bit size of the channel : int
+            - pixel_values : np.ndarray
+        4. when using ChannelInput instance it is important to add necessary amount of
+                channels_names_and_bit_sizes_tuple values. If there is only one tuple value - source image will be read
+                in a gray scale mode, so it will be treated as one channel.
+                If there are three values, then source image will be read as RGB img and will be treated as 3 separate
+                channels, according to the names and max_bit_values given in channels_names_and_bit_sizes_tuple
     """
 
     data_container.add_channels_to_multimodal_img(channels_inputs)
