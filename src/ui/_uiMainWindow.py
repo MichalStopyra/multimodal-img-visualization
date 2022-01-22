@@ -170,14 +170,6 @@ class _UiMainWindow:
         self._retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
 
-        add_channels_to_multimodal_img(self.data_container, [ChannelInput(
-            'resources/sample_images/dragon_1.png',
-            [
-                ('r', 8)
-                # , ('g', 8), ('b', 8)
-            ]
-        )])
-
     def _retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.mainWindow.setWindowTitle(_translate("MainWindow", "Multimodal Images"))
