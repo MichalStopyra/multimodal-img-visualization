@@ -9,7 +9,6 @@ from src.ui.dialog.uiChooseChannelsDecomposeWholeImg import UiChooseChannelsDeco
 from src.ui.dialog.uiChooseChannelsDisplayImg import UiChooseChannelsDisplayImg
 from src.ui.dialog.uiChooseChannelsDisplayImgWholeImgDecomposition import \
     UiChooseChannelsDisplayImgWholeImgDecomposition
-from src.ui.dialog.uiResultDialog import UiResultDialog
 
 
 def open_channel_input_dialog(main_window, data_container: DataContainer):
@@ -43,7 +42,7 @@ def open_choose_channels_display_img(main_window, data_container: DataContainer)
 
 
 def open_choose_channels_display_img_whole_img_decomposition(main_window, data_container: DataContainer):
-    main_window.choose_channels_display_img_whole_img_decomposition =\
+    main_window.choose_channels_display_img_whole_img_decomposition = \
         UiChooseChannelsDisplayImgWholeImgDecomposition(data_container)
     main_window.choose_channels_display_img_whole_img_decomposition.show()
 

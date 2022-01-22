@@ -6,10 +6,10 @@ import pandas as pd
 
 from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
+from src.library.constants.constants import STANDARIZED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_CHANNEL_NAME_TEMPLATE, \
+    DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE, REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.properties.properties import STANDARIZED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_CHANNEL_NAME_TEMPLATE, \
-    REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE, \
-    STD_MAX_PIXEL_VALUE
+from src.library.properties.properties import STD_MAX_PIXEL_VALUE
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
@@ -25,11 +25,10 @@ def _standarize_image_channels(df: pd.DataFrame, channels_to_exclude: [str],
 
     for column in df.columns:
 
-        # TODO dodac sprawdzanie innych map poza std
-        if column in channels_to_exclude or _is_channel_standarized(column, standarized_channels_data_map):
+        if column in channels_to_exclude or not __is_in_initial_channels_map(column, channels_data_map):
             continue
 
-        channel_data = ChannelApi.find_channel_by_name(channels_data_map, column)
+        channel_data = ChannelApi.find_channel_by_name_and_raise_exception(channels_data_map, column)
 
         # if standarization_modes doesn't contain specified channel - channel min max mode by default
         # else according to the chosen mode
@@ -130,3 +129,10 @@ def _find_channel_data_in_map_by_initial_name(initial_channel_name: str,
         lambda channel: channel.initial_channel_name == initial_channel_name, std_channels_data_map))
 
     return map_element_list[0] if map_element_list is not None and len(map_element_list) == 1 else None
+
+
+def __is_in_initial_channels_map(channel_name: str, channels_data_map: [ChannelData]) -> bool:
+    map_element_list = list(filter(
+        lambda channel: channel.name == channel_name, channels_data_map))
+
+    return map_element_list is not None and len(map_element_list) != 0

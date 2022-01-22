@@ -12,13 +12,14 @@ from src.data_container.channel.dto.channelData import ChannelData
 from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.properties.properties import OUTPUT_IMAGE_PATH, STD_MAX_PIXEL_VALUE
+from src.library.properties.properties import STD_MAX_PIXEL_VALUE
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.standarizationApi import StandarizationApi
 from src.library.visualization._channelValidationBusinessLogic import __raise_exception_if_channels_not_standarized, \
     __validate_rgb_channels, _validate_gray_scale_channels, _raise_exception_if_empty_df_or_wrong_channel_names
 from src.library.visualization.enum.outputImageFormatEnum import OutputImageFormatEnum, translate_output_format_enum
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
+from src.ui.properties.uiProperties import OUTPUT_IMAGE_PATH
 
 
 def _df_to_image_and_save(df: pd.DataFrame, output_name: str, output_width: int, output_height: int,
@@ -86,17 +87,17 @@ def __df_destandarize_and_map_to_separate_channels_arrays(df, output_width, outp
 
     channel_1 = StandarizationApi.destandarize_channel_array(
         np.reshape(df[channel_name_1].to_numpy().astype(float), (output_width, output_height)),
-        ChannelApi.find_channel_by_name(channel_data_map, channel_name_1)) \
+        ChannelApi.find_channel_by_name_and_raise_exception(channel_data_map, channel_name_1)) \
         if channel_name_1 else np.zeros((output_width, output_height)).astype(np.uint8)
 
     channel_2 = StandarizationApi.destandarize_channel_array(
         np.reshape(df[channel_name_2].to_numpy().astype(float), (output_width, output_height)),
-        ChannelApi.find_channel_by_name(channel_data_map, channel_name_2)) \
+        ChannelApi.find_channel_by_name_and_raise_exception(channel_data_map, channel_name_2)) \
         if channel_name_2 else np.zeros((output_width, output_height)).astype(np.uint8)
 
     channel_3 = StandarizationApi.destandarize_channel_array(
         np.reshape(df[channel_name_3].to_numpy().astype(float), (output_width, output_height)),
-        ChannelApi.find_channel_by_name(channel_data_map, channel_name_3)) \
+        ChannelApi.find_channel_by_name_and_raise_exception(channel_data_map, channel_name_3)) \
         if channel_name_3 else np.zeros((output_width, output_height)).astype(np.uint8)
 
     return channel_1, channel_2, channel_3

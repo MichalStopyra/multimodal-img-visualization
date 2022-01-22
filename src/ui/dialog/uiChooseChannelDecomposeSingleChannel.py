@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 
 from src.data_container.dataContainer import DataContainer
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
-from src.library.libraryApi import decompose_channel_resolution_wrapper
+from src.library.libraryApi import decompose_single_channel
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
@@ -18,7 +18,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
         self.setupUi()
 
         self.set_channels_List()
-
 
     def setupUi(self):
         self.frameWidget.setObjectName("self.frameWidget")
@@ -79,7 +78,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
         self.comboBox_decomposition_type.setItemText(2, _translate("QFrame_choose_channel_one_std", "NMF"))
         self.label.setText(_translate("QFrame_choose_channel_one_std", "FAST ICA n_components"))
 
-
     def set_channels_List(self):
         available_channels = AvailableActionsApi.find_channels_available_for_action(
             self.data_container, ActionTypeEnum.DECOMPOSE_SINGLE_CHANNEL_RESOLUTION)
@@ -101,18 +99,17 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
     def on_submit(self):
         current_cell_row = self.tableWidget.currentRow()
         if current_cell_row == -1:
-            print ("Choose cell for action!")
+            print("Choose cell for action!")
             return
         channel_name = str(self.tableWidget.item(current_cell_row, 0).text())
         take_std = bool((self.tableWidget.item(current_cell_row, 1).checkState() == QtCore.Qt.Checked))
 
         chosen_decomposition_type = DecompositionEnum[str(self.comboBox_decomposition_type.currentText())]
 
-        decompose_channel_resolution_wrapper(self.data_container, channel_name, chosen_decomposition_type,
-                                             take_std, self.fast_ica_n_components)
+        decompose_single_channel(self.data_container, channel_name, chosen_decomposition_type,
+                                 take_std, self.fast_ica_n_components)
 
         self.hide()
-
 
     def on_combobox_changed(self):
         if DecompositionEnum[str(self.comboBox_decomposition_type.currentText())] == DecompositionEnum.FAST_ICA:
@@ -122,7 +119,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
             self.label.setStyleSheet("color: gray")
             self.textEdit_ica_n_components.setReadOnly(True)
             self.fast_ica_n_components = None
-
 
     def on_fast_ica_n_components_changed(self):
         try:
