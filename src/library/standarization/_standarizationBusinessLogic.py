@@ -6,10 +6,10 @@ import pandas as pd
 
 from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
-from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.properties.properties import STD_MAX_PIXEL_VALUE
 from src.library.constants.constants import STANDARIZED_CHANNEL_NAME_TEMPLATE, DESTANDARIZED_CHANNEL_NAME_TEMPLATE, \
     DESTANDARIZED_AFTER_DECOMPOSITION_CHANNEL_NAME_TEMPLATE, REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE
+from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
+from src.library.properties.properties import STD_MAX_PIXEL_VALUE
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum

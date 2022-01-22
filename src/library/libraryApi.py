@@ -9,7 +9,6 @@ from src.library.conversion.conversionApi import ConversionApi
 from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
 from src.library.decomposition.decompositionApi import DecompositionApi
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
-from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
 from src.library.standarization.enum.standarizationModeEnum import StandarizationModeEnum
 from src.library.standarization.standarizationApi import StandarizationApi
@@ -194,11 +193,9 @@ def reverse_decompose_channel(data_container: DataContainer, channel_name: str):
                                                    data_container.rvrs_decomposed_channels_data_map)
 
 
-
 def convert_channel(data_container: DataContainer, channel_name: str, conversion_type: ConversionTypeEnum):
     data_container.multimodal_image.image_df, data_container.converted_channels_data_map = \
         ConversionApi.convert_channel(data_container.get_image_df(), data_container.get_channels_data_map(),
                                       channel_name, conversion_type, data_container.converted_channels_data_map)
-
 
 # -----------------------------------------------------------------------------

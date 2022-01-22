@@ -13,13 +13,13 @@ from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.properties.properties import STD_MAX_PIXEL_VALUE
-from src.ui.properties.uiProperties import OUTPUT_IMAGE_PATH
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.standarizationApi import StandarizationApi
 from src.library.visualization._channelValidationBusinessLogic import __raise_exception_if_channels_not_standarized, \
     __validate_rgb_channels, _validate_gray_scale_channels, _raise_exception_if_empty_df_or_wrong_channel_names
 from src.library.visualization.enum.outputImageFormatEnum import OutputImageFormatEnum, translate_output_format_enum
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
+from src.ui.properties.uiProperties import OUTPUT_IMAGE_PATH
 
 
 def _df_to_image_and_save(df: pd.DataFrame, output_name: str, output_width: int, output_height: int,

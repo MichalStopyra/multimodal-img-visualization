@@ -1,10 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
 
 from src.data_container.dataContainer import DataContainer
 from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
-from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
-from src.library.libraryApi import decompose_channel_resolution_wrapper, convert_channel
+from src.library.libraryApi import convert_channel
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog

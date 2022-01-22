@@ -1,7 +1,4 @@
-from src.data_container.channel.dto.channelInput import ChannelInput
 from src.library.libraryApi import *
-from src.library.constants.constants import DECOMPOSED_CHANNEL_NAME_TEMPLATE
-from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.uiApplication import UiApplication
 
 if __name__ == '__main__':
@@ -78,4 +75,3 @@ if __name__ == '__main__':
     #                                        DECOMPOSED_CHANNEL_NAME_TEMPLATE + 'r',
     #                                        DECOMPOSED_CHANNEL_NAME_TEMPLATE + 'g',
     #                                        DECOMPOSED_CHANNEL_NAME_TEMPLATE + 'b')
-

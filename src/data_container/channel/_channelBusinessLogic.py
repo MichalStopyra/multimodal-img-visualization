@@ -11,6 +11,7 @@ def _find_channel_by_name_and_raise_exception(channel_data_map: [ChannelData], n
 
     return map_element_list[0]
 
+
 def _channel_(channel_data_map: [ChannelData], name: str) -> ChannelData:
     if not channel_data_map:
         return None

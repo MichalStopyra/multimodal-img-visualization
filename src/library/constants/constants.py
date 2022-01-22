@@ -10,7 +10,6 @@ REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE: Final = 'rvrs_dcmpsd_'
 
 DECOMPOSED_WHOLE_IMAGE_NAME_TEMPLATE: Final = 'decomposed_image_channels'
 
-
 DECOMPOSED_WHOLE_IMAGE_SHORT_NAME: Final = 'decomposed_image'
 RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME: Final = 'rvrs_decomposed_image'
 

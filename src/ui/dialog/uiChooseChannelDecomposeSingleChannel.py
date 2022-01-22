@@ -19,7 +19,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
 
         self.set_channels_List()
 
-
     def setupUi(self):
         self.frameWidget.setObjectName("self.frameWidget")
         self.frameWidget.resize(622, 504)
@@ -79,7 +78,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
         self.comboBox_decomposition_type.setItemText(2, _translate("QFrame_choose_channel_one_std", "NMF"))
         self.label.setText(_translate("QFrame_choose_channel_one_std", "FAST ICA n_components"))
 
-
     def set_channels_List(self):
         available_channels = AvailableActionsApi.find_channels_available_for_action(
             self.data_container, ActionTypeEnum.DECOMPOSE_SINGLE_CHANNEL_RESOLUTION)
@@ -101,7 +99,7 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
     def on_submit(self):
         current_cell_row = self.tableWidget.currentRow()
         if current_cell_row == -1:
-            print ("Choose cell for action!")
+            print("Choose cell for action!")
             return
         channel_name = str(self.tableWidget.item(current_cell_row, 0).text())
         take_std = bool((self.tableWidget.item(current_cell_row, 1).checkState() == QtCore.Qt.Checked))
@@ -113,7 +111,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
 
         self.hide()
 
-
     def on_combobox_changed(self):
         if DecompositionEnum[str(self.comboBox_decomposition_type.currentText())] == DecompositionEnum.FAST_ICA:
             self.textEdit_ica_n_components.setReadOnly(False)
@@ -122,7 +119,6 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
             self.label.setStyleSheet("color: gray")
             self.textEdit_ica_n_components.setReadOnly(True)
             self.fast_ica_n_components = None
-
 
     def on_fast_ica_n_components_changed(self):
         try:

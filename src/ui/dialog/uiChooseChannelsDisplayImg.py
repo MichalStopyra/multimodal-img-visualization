@@ -2,13 +2,13 @@ from PyQt5 import QtCore, QtWidgets
 
 from src.data_container.dataContainer import DataContainer
 from src.library.libraryApi import multimodal_image_df_to_image_save_file
-from src.ui.properties.uiProperties import OUTPUT_IMAGE_NAME_RESULT, OUTPUT_IMAGE_FORMAT, OUTPUT_IMAGE_WIDTH, \
-    OUTPUT_IMAGE_HEIGHT
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.available_actions.enum.actionTypeEnum import ActionTypeEnum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog
 from src.ui.dialog.uiResultDialog import UiResultDialog
+from src.ui.properties.uiProperties import OUTPUT_IMAGE_NAME_RESULT, OUTPUT_IMAGE_FORMAT, OUTPUT_IMAGE_WIDTH, \
+    OUTPUT_IMAGE_HEIGHT
 
 
 class UiChooseChannelsDisplayImg(AbstractDialog):

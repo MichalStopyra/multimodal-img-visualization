@@ -6,10 +6,10 @@ from sklearn.decomposition import PCA, FastICA, NMF
 from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
+from src.library.constants.constants import STANDARIZED_CHANNEL_NAME_TEMPLATE, DECOMPOSED_CHANNEL_NAME_TEMPLATE
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.enum.decompositionEnum import DecompositionEnum
 from src.library.properties.properties import PCA_VARIATION_MIN_VALUE
-from src.library.constants.constants import STANDARIZED_CHANNEL_NAME_TEMPLATE, DECOMPOSED_CHANNEL_NAME_TEMPLATE
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.standarization.standarizationApi import StandarizationApi
 

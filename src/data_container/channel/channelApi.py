@@ -1,4 +1,5 @@
-from src.data_container.channel._channelBusinessLogic import _find_channel_by_name_and_raise_exception, _check_if_channel_name_occupied
+from src.data_container.channel._channelBusinessLogic import _find_channel_by_name_and_raise_exception, \
+    _check_if_channel_name_occupied
 from src.data_container.channel.dto.channelData import ChannelData
 
 

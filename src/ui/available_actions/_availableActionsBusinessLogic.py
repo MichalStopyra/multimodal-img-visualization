@@ -2,11 +2,11 @@ import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
+from src.library.constants.constants import DECOMPOSED_WHOLE_IMAGE_SHORT_NAME, RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME
 from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.constants.constants import DECOMPOSED_WHOLE_IMAGE_SHORT_NAME, RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum
@@ -179,4 +179,3 @@ def _find_channels_available_for_action(action_type: ActionTypeEnum,
             channels_available_for_action.append(str(column))
 
     return channels_available_for_action
-
