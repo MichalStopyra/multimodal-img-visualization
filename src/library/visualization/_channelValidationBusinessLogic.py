@@ -1,6 +1,8 @@
 import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
+from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
+from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
@@ -41,23 +43,24 @@ def _validate_gray_scale_channels(channel_name_1, channel_name_2, channel_name_3
 
 def __validate_rgb_channels(channel_name_1, channel_name_2, channel_name_3,
                             decomposed_channels_data_map: [DecomposedChannelData], rvrs_decomposed_channels_data_map,
-                            std_channels_data_map):
+                            std_channels_data_map, converted_channels_data_map):
     if not channel_name_1 or not channel_name_2 or not channel_name_3:
         raise Exception('ERROR - In order to create hsv image - pass 3 channel names!')
 
     for channel_name in [channel_name_1, channel_name_2, channel_name_3]:
         if __is_given_channel_of_standarized_type(channel_name, std_channels_data_map, decomposed_channels_data_map,
-                                                  rvrs_decomposed_channels_data_map):
+                                                  rvrs_decomposed_channels_data_map, converted_channels_data_map):
             print("WARNING: RGB image chosen - channel ", channel_name, " is standarized!")
 
 
 def __raise_exception_if_channels_not_standarized(channel_names_list: [ChannelData],
                                                   std_channels_data_map: [StandarizedChannelData],
                                                   decomposed_channel_data_map: [DecomposedChannelData],
-                                                  rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData]):
+                                                  rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                                  converted_channels_data_map: [ConvertedChannelData]):
     for channel_name in channel_names_list:
         if not __is_given_channel_of_standarized_type(channel_name, std_channels_data_map, decomposed_channel_data_map,
-                                                      rvrs_decomposed_channels_data_map):
+                                                      rvrs_decomposed_channels_data_map, converted_channels_data_map):
             raise Exception("Error: HSV image requires standarized channels data! channel: ",
                             channel_name, " not standarized!")
 
@@ -82,6 +85,7 @@ def __check_decomposed_df_size(df: pd.DataFrame, visualization_channels_type: Vi
 def __is_given_channel_of_standarized_type(channel_name: str, std_channels_data_map: [StandarizedChannelData],
                                            decomposed_channels_data_map: [DecomposedChannelData],
                                            rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                           converted_channels_data_map: [ConvertedChannelData],
                                            ) -> bool:
     std_map_element_list = list(filter(
         lambda channel: channel.standarized_channel_name == channel_name, std_channels_data_map))
@@ -94,11 +98,17 @@ def __is_given_channel_of_standarized_type(channel_name: str, std_channels_data_
         lambda channel: channel.rvrs_decomposed_channel_name == channel_name and channel.from_standarized_channel,
         rvrs_decomposed_channels_data_map))
 
+    converted_map_standarized_element_list = list(filter(
+        lambda channel: channel.converted_channel_name == channel_name
+                        and channel.conversion_type == ConversionTypeEnum.DOLP, converted_channels_data_map))
+
     return (std_map_element_list is not None and len(std_map_element_list) != 0) \
            or (decomposed_map_standarized_element_list is not None
                and len(decomposed_map_standarized_element_list) != 0) \
            or (rvrs_decomposed_map_standarized_element_list is not None
-               and len(rvrs_decomposed_map_standarized_element_list) != 0)
+               and len(rvrs_decomposed_map_standarized_element_list) != 0) \
+           or (converted_map_standarized_element_list is not None
+               and len(converted_map_standarized_element_list) != 0)
 
 
 def _validate_if_channels_standarized(visualization_channels_type: VisualizationChannelsEnum,

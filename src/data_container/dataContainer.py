@@ -53,6 +53,7 @@ class DataContainer:
         self.destandarized_channels_data_map = []
         self.decomposed_channels_data_map = []
         self.rvrs_decomposed_channels_data_map = []
+        self.converted_channels_data_map = []
         self.decomposed_image_data = None
         self.decomposed_rvrs_dcmpsd_image_df = None
 

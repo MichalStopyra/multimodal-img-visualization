@@ -99,6 +99,7 @@ def multimodal_image_df_to_image_save_file(data_container: DataContainer,
                                           data_container.standarized_channels_data_map,
                                           data_container.decomposed_channels_data_map,
                                           data_container.rvrs_decomposed_channels_data_map,
+                                          data_container.converted_channels_data_map,
                                           channel_name_1, channel_name_2, channel_name_3)
 
 

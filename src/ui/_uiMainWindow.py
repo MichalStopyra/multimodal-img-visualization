@@ -92,9 +92,8 @@ class _UiMainWindow:
         self.toolButton_convert_channel = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_convert_channel.setGeometry(QtCore.QRect(40, 430, 431, 71))
         self.toolButton_convert_channel.setObjectName("toolButton_convert_channel")
-        # TODO
         self.toolButton_convert_channel.clicked.connect(
-            lambda: open_choose_channel_decompose_single_channel(self.mainWindow, self.data_container))
+            lambda: open_choose_channels_conversion(self.mainWindow, self.data_container))
 
         self.toolButton_decompose_whole_image = QtWidgets.QToolButton(self.frame_buttons)
         self.toolButton_decompose_whole_image.setGeometry(QtCore.QRect(40, 540, 661, 71))
@@ -173,9 +172,10 @@ class _UiMainWindow:
 
 
         add_channels_to_multimodal_img(self.data_container, [ChannelInput(
-            'resources/sample_images/ball/ball_0.png',
+            'resources/sample_images/dragon_1.png',
             [
-                ('r', 8), ('g', 8), ('b', 8)
+                ('r', 8)
+                # , ('g', 8), ('b', 8)
             ]
         )])
 
