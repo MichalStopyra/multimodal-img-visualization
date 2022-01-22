@@ -2,6 +2,8 @@ import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
+from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
+from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.properties.properties import \
@@ -25,6 +27,7 @@ def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChann
                                 destandarized_channels_data_map: [DestandarizedChannelData],
                                 decomposed_channels_data_map: [DecomposedChannelData],
                                 rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                converted_channels_data_map: [ConvertedChannelData],
                                 decomposed_image_data: DecomposedImage,
                                 decomposed_rvrs_dcmpsd_image_df: pd.DataFrame
                                 ) -> [str]:
@@ -46,6 +49,10 @@ def _find_converted_df_channels(standarized_channels_data_map: [StandarizedChann
         for channel in rvrs_decomposed_channels_data_map:
             channels.append(channel.rvrs_decomposed_channel_name)
 
+    if converted_channels_data_map:
+        for channel in converted_channels_data_map:
+            channels.append(channel.converted_channel_name)
+
     if decomposed_image_data:
         channels.append(DECOMPOSED_WHOLE_IMAGE_SHORT_NAME)
 
@@ -61,10 +68,12 @@ def _find_channels_available_for_action(action_type: ActionTypeEnum,
                                         destandarized_channels_data_map: [DestandarizedChannelData],
                                         decomposed_channels_data_map: [DecomposedChannelData],
                                         rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                                        converted_channels_data_map: [ConvertedChannelData],
                                         multimodal_img_df: pd.DataFrame,
                                         decomposed_image_data: DecomposedImage,
                                         rvrs_decomposed_image_df: pd.DataFrame,
                                         visualization_channel_type: VisualizationChannelsEnum,
+                                        conversion_type: ConversionTypeEnum
                                         ) -> [(str, bool)]:
     channels_available_for_action = []
     if action_type == ActionTypeEnum.STANDARIZE_CHANNELS:
@@ -112,7 +121,10 @@ def _find_channels_available_for_action(action_type: ActionTypeEnum,
 
     elif action_type == ActionTypeEnum.CONVERT_CHANNEL:
         for channel in channels_data_map:
-            channels_available_for_action.append((channel.name, False))
+            if not (list(filter(lambda conv_ch: conv_ch.initial_channel_name == channel.name
+                                                and conv_ch.conversion_type == conversion_type,
+                                converted_channels_data_map))):
+                channels_available_for_action.append((channel.name, False))
 
     elif action_type == ActionTypeEnum.DECOMPOSE_WHOLE_IMAGE_CHANNELS:
         for channel in channels_data_map:
@@ -141,6 +153,10 @@ def _find_channels_available_for_action(action_type: ActionTypeEnum,
 
             for channel in standarized_channels_data_map:
                 channels_available_for_action.append(channel.standarized_channel_name)
+
+            for channel in converted_channels_data_map:
+                if channel.conversion_type == ConversionTypeEnum.DOLP:
+                    channels_available_for_action.append(channel.converted_channel_name)
 
             if len(channels_available_for_action) == 0:
                 channels_available_for_action.append('-')

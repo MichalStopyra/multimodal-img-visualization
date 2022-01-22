@@ -1,3 +1,4 @@
+import csv
 import decimal
 
 import cv2
@@ -5,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from src.data_container.channel.dto.channelData import ChannelData
-from src.data_container.channel.dto.channelInput import ChannelInputInterface, ChannelInput, ChannelInputMock
+from src.data_container.channel.dto.channelInput import ChannelInputInterface, ChannelInput, ChannelInputFromPixelArray
 from src.data_container.channel.dto.readyChannel import ReadyChannel
 
 
@@ -24,9 +25,15 @@ class MultimodalImage:
         ready_channels = []
         for channel in channels_inputs:
             if isinstance(channel, ChannelInput):
-                input_mat = cv2.cvtColor(cv2.imread(channel.channel_image_path), cv2.COLOR_BGR2RGB)
-            elif isinstance(channel, ChannelInputMock):
-                # TODO: mock pixel values
+                if len(channel.channels_names_and_bit_sizes) == 1:
+                    input_mat = cv2.imread(channel.channel_image_path, cv2.IMREAD_GRAYSCALE)
+
+                elif len(channel.channels_names_and_bit_sizes) == 3:
+                    input_mat = cv2.cvtColor(cv2.imread(channel.channel_image_path), cv2.COLOR_BGR2RGB)
+
+                else:
+                    raise Exception("ERROR - Wrong amount of channel names and bit sizes!")
+            elif isinstance(channel, ChannelInputFromPixelArray):
                 input_mat = channel.pixel_values
             else:
                 raise Exception("Channel input is of wrong type")
@@ -44,9 +51,10 @@ class MultimodalImage:
 
         first_channels = channels.pop(0)
         channel_names_and_bit_sizes = first_channels.channels_names_and_bit_sizes
-        channel_matrix = first_channels.image.reshape(-1, first_channels.image.shape[2])
+        channel_matrix = first_channels.image.reshape(-1, len(channel_names_and_bit_sizes))
         for channel in channels:
-            channel_matrix = np.append(channel_matrix, channel.image.reshape(-1, channel.image.shape[2]), axis=1)
+            channel_matrix = np.append(channel_matrix, channel.image
+                                       .reshape(-1, len(channel.channels_names_and_bit_sizes)), axis=1)
 
             for name_and_bit_size in channel.channels_names_and_bit_sizes:
                 channel_names_and_bit_sizes.append(name_and_bit_size)
@@ -65,6 +73,5 @@ class MultimodalImage:
         invalid_size_channels = [channel for channel in channels
                                  if channel.image.shape[0] != channels[0].image.shape[0]
                                  or channel.image.shape[1] != channels[0].image.shape[1]]
-        # TODO: handle different resolutions
         if invalid_size_channels:
             raise Exception("channel images have different resolution")

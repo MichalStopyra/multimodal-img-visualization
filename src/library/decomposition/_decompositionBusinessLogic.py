@@ -108,7 +108,6 @@ def _print_explained_variance_ratio(df: pd.DataFrame):
     plt.show()
 
 
-# TODO: transformation type in name to make multiple transformations possible for a channel
 def ___decompose_channel_resolution_pca(df: pd.DataFrame, from_standarized_channel: bool) -> (
         pd.DataFrame, DecomposedChannelData):
     pca = PCA(svd_solver='full', n_components=PCA_VARIATION_MIN_VALUE)

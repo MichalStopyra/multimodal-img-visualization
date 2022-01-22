@@ -42,7 +42,7 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
 
         self.comboBox_decomposition_type = QtWidgets.QComboBox(self.frameWidget)
         self.comboBox_decomposition_type.setGeometry(QtCore.QRect(440, 250, 141, 51))
-        self.comboBox_decomposition_type.setObjectName("comboBox_decompositio_type")
+        self.comboBox_decomposition_type.setObjectName("comboBox_decomposition_type")
         self.comboBox_decomposition_type.addItem("")
         self.comboBox_decomposition_type.addItem("")
         self.comboBox_decomposition_type.addItem("")
@@ -63,10 +63,10 @@ class UiChooseChannelDecomposeSingleChannel(AbstractDialog):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.frameWidget.setWindowTitle(_translate("self.frameWidget", "Choose channel for action"))
+        self.frameWidget.setWindowTitle(_translate("self.frameWidget", "Choose channel for decomposition"))
         self.pushButton.setText(_translate("self.frameWidget", "Submit"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("self.frameWidget", "New Column"))
+        item.setText(_translate("self.frameWidget", "Channel Name"))
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("self.frameWidget", "Choose Standarized"))
 

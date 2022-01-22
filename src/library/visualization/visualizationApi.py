@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
+from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
@@ -21,11 +22,13 @@ class VisualizationApi:
                              std_channels_data_map: [StandarizedChannelData],
                              decomposed_channels_data_map: [DecomposedChannelData],
                              rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                             converted_channels_data_map: [ConvertedChannelData],
                              channel_name_1: str = None, channel_name_2: str = None, channel_name_3: str = None):
         _df_to_image_and_save(df, output_name, output_width, output_height,
                               output_format,
                               visualization_channels_type,
                               std_channels_data_map, decomposed_channels_data_map, rvrs_decomposed_channels_data_map,
+                              converted_channels_data_map,
                               channel_name_1, channel_name_2, channel_name_3)
 
     @staticmethod

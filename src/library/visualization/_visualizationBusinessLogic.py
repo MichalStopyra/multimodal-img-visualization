@@ -9,6 +9,7 @@ from PIL import Image as im
 
 from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
+from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
 from src.library.properties.properties import OUTPUT_IMAGE_PATH, STD_MAX_PIXEL_VALUE
@@ -26,6 +27,7 @@ def _df_to_image_and_save(df: pd.DataFrame, output_name: str, output_width: int,
                           std_channels_data_map: [StandarizedChannelData],
                           decomposed_channels_data_map: [DecomposedChannelData],
                           rvrs_decomposed_channels_data_map: [ReverseDecomposedChannelData],
+                          converted_channels_data_map: [ConvertedChannelData],
                           channel_name_1: str = None, channel_name_2: str = None, channel_name_3: str = None):
     _raise_exception_if_empty_df_or_wrong_channel_names(df, channel_name_1, channel_name_2, channel_name_3)
 
@@ -35,6 +37,7 @@ def _df_to_image_and_save(df: pd.DataFrame, output_name: str, output_width: int,
                                                                             std_channels_data_map,
                                                                             decomposed_channels_data_map,
                                                                             rvrs_decomposed_channels_data_map,
+                                                                            converted_channels_data_map,
                                                                             channel_name_1,
                                                                             channel_name_2, channel_name_3)
         result_array = np.round(matplotlib.colors.rgb_to_hsv(cv2.merge((channel_1, channel_2, channel_3)))
@@ -43,14 +46,15 @@ def _df_to_image_and_save(df: pd.DataFrame, output_name: str, output_width: int,
 
     elif visualization_channels_type == VisualizationChannelsEnum.GRAY_SCALE:
         _validate_gray_scale_channels(channel_name_1, channel_name_2, channel_name_3, decomposed_channels_data_map,
-                                      rvrs_decomposed_channels_data_map, std_channels_data_map)
+                                      rvrs_decomposed_channels_data_map, std_channels_data_map,
+                                      converted_channels_data_map)
 
         result_array = np.reshape(df[channel_name_1].to_numpy().astype(np.uint8), (output_width, output_height))
 
     elif visualization_channels_type == VisualizationChannelsEnum.RGB:
         __validate_rgb_channels(channel_name_1, channel_name_2, channel_name_3,
                                 decomposed_channels_data_map, rvrs_decomposed_channels_data_map,
-                                std_channels_data_map)
+                                std_channels_data_map, converted_channels_data_map)
 
         channel_1, channel_2, channel_3 = \
             __reshape_channels_to_channel_image_arrays(df, channel_name_1, channel_name_2, channel_name_3,
@@ -103,6 +107,7 @@ def __check_and_find_channels_for_hsv(df: pd.DataFrame,
                                       std_channel_data_map: [StandarizedChannelData],
                                       decomposed_channels_data_map: [DecomposedChannelData],
                                       rvrs_decomposed_channel_data_map: [ReverseDecomposedChannelData],
+                                      converted_channels_data_map: [ConvertedChannelData],
                                       channel_name_1: str, channel_name_2: str, channel_name_3: str
                                       ) -> (np.ndarray, np.ndarray, np.ndarray):
     if not channel_name_1 or not channel_name_2 or not channel_name_3:
@@ -110,7 +115,7 @@ def __check_and_find_channels_for_hsv(df: pd.DataFrame,
 
     __raise_exception_if_channels_not_standarized([channel_name_1, channel_name_2, channel_name_3],
                                                   std_channel_data_map, decomposed_channels_data_map,
-                                                  rvrs_decomposed_channel_data_map)
+                                                  rvrs_decomposed_channel_data_map, converted_channels_data_map)
 
     return np.reshape(df[channel_name_1].to_numpy(), (output_width, output_height)).astype(float), \
            np.reshape(df[channel_name_2].to_numpy(), (output_width, output_height)).astype(float), \
