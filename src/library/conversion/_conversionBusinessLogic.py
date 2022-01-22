@@ -9,7 +9,7 @@ from src.data_container.channel.channelApi import ChannelApi
 from src.data_container.channel.dto.channelData import ChannelData
 from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
-from src.library.properties.properties import CONVERTED_CHANNEL_INTENSITY_NAME_TEMPLATE, \
+from src.library.constants.constants import CONVERTED_CHANNEL_INTENSITY_NAME_TEMPLATE, \
     CONVERTED_CHANNEL_DOLP_NAME_TEMPLATE, CONVERTED_CHANNEL_AOLP_H_NAME_TEMPLATE, \
     CONVERTED_CHANNEL_AOLP_S_NAME_TEMPLATE, CONVERTED_CHANNEL_AOLP_V_NAME_TEMPLATE, \
     CONVERTED_CHANNEL_AOLP_LIGHT_H_NAME_TEMPLATE, CONVERTED_CHANNEL_AOLP_LIGHT_S_NAME_TEMPLATE, \
@@ -20,7 +20,7 @@ from src.library.properties.properties import CONVERTED_CHANNEL_INTENSITY_NAME_T
 def _convert_channel(df: pd.DataFrame, channels_data_map: [ChannelData],
                      channel_name: str, conversion_type: ConversionTypeEnum,
                      converted_channels_data_map: [ConvertedChannelData]) -> (pd.DataFrame, [ConvertedChannelData]):
-    channel_data = ChannelApi.find_channel_by_name(channels_data_map, channel_name)
+    channel_data = ChannelApi.find_channel_by_name_and_raise_exception(channels_data_map, channel_name)
 
     channel_to_polarize_array = df[channel_name].to_numpy().astype(np.uint8) \
         .reshape(channel_data.width, channel_data.height)

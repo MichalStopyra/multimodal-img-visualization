@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from src.data_container.dataContainer import DataContainer
-from src.library.properties.properties import OUTPUT_IMAGE_PATH, OUTPUT_IMAGE_NAME_RESULT, OUTPUT_IMAGE_FORMAT, \
+from src.ui.properties.uiProperties import OUTPUT_IMAGE_PATH, OUTPUT_IMAGE_NAME_RESULT, OUTPUT_IMAGE_FORMAT, \
     OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT
 from src.library.visualization.enum.outputImageFormatEnum import translate_output_format_enum
 from src.ui.dialog.abstractDialog.abstractDialog import AbstractDialog

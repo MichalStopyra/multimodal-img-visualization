@@ -6,8 +6,7 @@ from src.library.conversion.dto.ConvertedChannelData import ConvertedChannelData
 from src.library.conversion.enum.conversionTypeEnum import ConversionTypeEnum
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.properties.properties import \
-    DECOMPOSED_WHOLE_IMAGE_SHORT_NAME, RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME
+from src.library.constants.constants import DECOMPOSED_WHOLE_IMAGE_SHORT_NAME, RVRS_DECOMPOSED_WHOLE_IMAGE_SHORT_NAME
 from src.library.standarization.dto.destandarizedChannelData import DestandarizedChannelData
 from src.library.standarization.dto.standarizedChannelData import StandarizedChannelData
 from src.library.visualization.enum.visualizationChannelsEnum import VisualizationChannelsEnum

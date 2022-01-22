@@ -5,7 +5,7 @@ import pandas as pd
 from src.data_container.decomposed_image.decomposedImage import DecomposedImage
 from src.library.decomposition.dto.decomposedChannelData import DecomposedChannelData
 from src.library.decomposition.dto.reverseDecomposedChannelData import ReverseDecomposedChannelData
-from src.library.properties.properties import REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE, DECOMPOSED_CHANNEL_NAME_TEMPLATE
+from src.library.constants.constants import DECOMPOSED_CHANNEL_NAME_TEMPLATE, REVERSE_DECOMPOSED_CHANNEL_NAME_TEMPLATE
 from src.library.standarization.standarizationApi import StandarizationApi
 
 

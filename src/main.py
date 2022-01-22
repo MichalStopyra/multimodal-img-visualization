@@ -1,6 +1,6 @@
 from src.data_container.channel.dto.channelInput import ChannelInput
 from src.library.libraryApi import *
-from src.library.properties.properties import DECOMPOSED_CHANNEL_NAME_TEMPLATE
+from src.library.constants.constants import DECOMPOSED_CHANNEL_NAME_TEMPLATE
 from src.ui.available_actions.availableActionsApi import AvailableActionsApi
 from src.ui.uiApplication import UiApplication
 
