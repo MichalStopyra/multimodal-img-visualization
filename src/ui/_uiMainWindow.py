@@ -24,7 +24,7 @@ class _UiMainWindow:
         self.timer.start(1000)
 
     def show(self):
-        self.mainWindow.showFullScreen()
+        self.mainWindow.showMaximized()
 
     def _setup_ui_window(self):
         self.mainWindow.setGeometry(500, 500, 700, 700)
