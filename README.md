@@ -8,8 +8,7 @@ You can choose from:
 - Reverse decomposition
 - Channel conversion
 
-<br />
-The results of chosen operation can be viewed using the provided dektop application in:
+The results of chosen operation (or a set of operations) can be viewed using the provided dektop application in:
 - RGB mode
 - HSV mode
 - Grey scale mode
